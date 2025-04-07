@@ -1,0 +1,13 @@
+- git:
+    local-name: choreonoid
+    uri: https://github.com/choreonoid/choreonoid.git
+    version: release-2.2
+- git:
+    local-name: agent_system
+    uri: git@github.com:agent-system/lecture2025.git
+# - git:
+#     local-name: choreonoid/ext/vnoid
+#     uri: https://github.com/ytazz/vnoid.git
+# - git:
+#     local-name: choreonoid/ext/jaxon2_sample
+#     uri: https://github.com/choreonoid/jaxon2-draft.git

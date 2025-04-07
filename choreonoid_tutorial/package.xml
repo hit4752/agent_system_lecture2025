@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>choreonoid_tutorial</name>
+  <version>1.0.0</version>
+  <description>
+    Tutorial on how to implement a robot controller in choreonoid
+  </description>
+  <maintainer email="k-kojima@jsk.imi.i.u-tokyo.ac.jp">Kunio Kojima</maintainer>
+  <license>MIT</license>
+  <author email="k-kojima@jsk.imi.i.u-tokyo.ac.jp">Kunio Kojima</author>
+  <url type="website">http://choreonoid.org</url>
+  <url type="repository">https://github.com/agent_system/choreonoid_tutorial.git</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>message_generation</build_depend>
+
+  <depend>choreonoid</depend>
+  <!-- <depend>choreonoid_ros</depend> -->
+  <!-- <depend>choreonoid_joy</depend> -->
+  <depend>roscpp</depend>
+  <depend>rospy</depend>
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>trajectory_msgs</depend>
+  <!-- <depend>image_transport</depend> -->
+
+  <exec_depend>message_runtime</exec_depend>
+
+  <export>
+    <build_type>cmake</build_type>
+  </export>
+</package>
