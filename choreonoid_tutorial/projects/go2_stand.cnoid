@@ -53,7 +53,7 @@ items:
               data:
                 isNoDelayMode: false
                 controllerOptions: ""
-                controller: "StandControllerOut"
+                controller: "StandController"
                 base_directory: "Controller directory"
                 reloading: false
                 export_symbols: false

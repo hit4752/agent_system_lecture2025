@@ -1,5 +1,4 @@
-# choreonoid_add_simple_controller(StandController StandController.cpp)
-choreonoid_add_simple_controller(StandControllerOut StandController.cpp)
+choreonoid_add_simple_controller(StandController StandController.cpp)
 
 choreonoid_add_simple_controller(ROSChoreonoidBridgeController ROSChoreonoidBridgeController.cpp)
 target_link_libraries(ROSChoreonoidBridgeController ${roscpp_LIBRARIES})
