@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>inference_pkg</name>
+  <name>inference_tutorial</name>
   <version>0.0.0</version>
   <description>
     Tutorial on how to execute inference of neural networks

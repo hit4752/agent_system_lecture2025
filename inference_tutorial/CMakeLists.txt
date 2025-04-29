@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(inference_pkg)
+project(inference_tutorial)
 
 find_package(catkin REQUIRED)
 
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES inference_pkg
+#  LIBRARIES inference_tutorial
 #  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
 )
