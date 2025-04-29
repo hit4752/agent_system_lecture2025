@@ -8,8 +8,7 @@
   <maintainer email="k-kojima@jsk.imi.i.u-tokyo.ac.jp">Kunio Kojima</maintainer>
   <license>MIT</license>
   <author email="k-kojima@jsk.imi.i.u-tokyo.ac.jp">Kunio Kojima</author>
-  <url type="website">http://choreonoid.org</url>
-  <url type="repository">https://github.com/agent_system/choreonoid_tutorial.git</url>
+  <url type="repository">https://github.com/agent-system/lecture2025</url>
 
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>message_generation</build_depend>

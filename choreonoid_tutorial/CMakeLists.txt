@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   choreonoid
   )
 
+# generate ros messages
 add_message_files(
   FILES
   RobotObservation.msg
