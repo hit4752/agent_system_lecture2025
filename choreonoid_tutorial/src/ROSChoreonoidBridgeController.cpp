@@ -29,12 +29,8 @@ class RosChoreonoidBridgeController1 : public SimpleController
     Body* ioBody;
 
     // data buffer
-    std::vector<double> q_cur;
-    std::vector<double> dq_cur;
-    std::vector<double> q_prev;
     std::vector<double> q_ref;
     std::vector<double> dq_ref;
-    Isometry3 root_coord_prev;
 
     // control timestep
     double dt;
@@ -79,31 +75,24 @@ public:
         dt = io->timeStep();
         ioBody = io->body();
 
-        q_cur.clear();
-        q_cur.reserve(ioBody->numJoints());
-        dq_cur.clear();
-        dq_cur.reserve(ioBody->numJoints());
-        q_prev.clear();
-        q_prev.reserve(ioBody->numJoints());
         q_ref.clear();
         q_ref.reserve(ioBody->numJoints());
         dq_ref.clear();
         dq_ref.reserve(ioBody->numJoints());
 
-        root_coord_prev = ioBody->rootLink()->T();
-
         // enable joints
         for (auto joint : ioBody->joints()) {
             joint->setActuationMode(JointTorque);
-            io->enableIO(joint);
+            // io->enableIO(joint);
+            io->enableOutput(joint, JointTorque);
+            io->enableInput(joint, JointAngle | JointVelocity);
 
             const double q = joint->q();
-            q_prev.push_back(q);
             q_ref.push_back(q);
             dq_ref.push_back(0); // dq reference is 0 temporally
         }
         // enable rootLink
-        io->enableInput(ioBody->rootLink(), LINK_POSITION);
+        io->enableInput(ioBody->rootLink(), LinkPosition | LinkTwist);
 
         observation_msg.joint_states.name.resize(ioBody->numJoints());
         observation_msg.joint_states.position.resize(ioBody->numJoints());
@@ -124,10 +113,6 @@ public:
 
     virtual bool control() override
     {
-        for (int i = 0; i < ioBody->numJoints(); ++i) {
-            q_cur[i] = ioBody->joint(i)->q();
-            dq_cur[i] = (q_cur[i] - q_prev[i]) / dt;
-        }
         const Isometry3 root_coord = ioBody->rootLink()->T();
 
         while (ros::ok() && timestamp_sent > timestamp_received) {
@@ -146,21 +131,21 @@ public:
                 auto joint = ioBody->joint(i);
                 observation_msg.joint_states.name[i] = joint->name();
                 observation_msg.joint_states.position[i] = joint->q();
-                observation_msg.joint_states.velocity[i] = dq_cur[i]; // ioBody->joint(i)->dq() does not change.
+                observation_msg.joint_states.velocity[i] = joint->dq();
             }
 
-            // angular velocity
-            // Vector3 w = ioBody->rootLink()->w();
-            // observation_msg.imu.angular_velocity.x = w.x(); // ioBody->rootLink()->w() dows not change.
-            // observation_msg.imu.angular_velocity.y = w.y();
-            // observation_msg.imu.angular_velocity.z = w.z();
-            Matrix3 R_diff = root_coord.rotation() * root_coord_prev.rotation().transpose();
-            AngleAxisd angleAxis(R_diff);
-            Vector3 angular_velocity = angleAxis.axis() * angleAxis.angle() / dt;
+            // orientation
+            cnoid::Quaternion quaternion(root_coord.rotation());
+            observation_msg.imu.orientation.x = quaternion.x();
+            observation_msg.imu.orientation.y = quaternion.y();
+            observation_msg.imu.orientation.z = quaternion.z();
+            observation_msg.imu.orientation.w = quaternion.w();
 
-            observation_msg.imu.angular_velocity.x = angular_velocity.x();
-            observation_msg.imu.angular_velocity.y = angular_velocity.y();
-            observation_msg.imu.angular_velocity.z = angular_velocity.z();
+            // angular velocity
+            cnoid::Vector3 w = ioBody->rootLink()->w();
+            observation_msg.imu.angular_velocity.x = w.x();
+            observation_msg.imu.angular_velocity.y = w.y();
+            observation_msg.imu.angular_velocity.z = w.z();
 
             // Vector3 pos = root_coord.translation();
             // ROS_INFO("pos: %f %f %f", pos[0], pos[1], pos[2]);
@@ -174,14 +159,11 @@ public:
         static const double dgain = 50.0;
 
         for (int i = 0; i < ioBody->numJoints(); ++i) {
+            auto joint = ioBody->joint(i);
             // PD control
-            const double u = (q_ref[i] - q_cur[i]) * pgain + (dq_ref[i] - dq_cur[i]) * dgain;
+            const double u = (q_ref[i] - joint->q()) * pgain + (dq_ref[i] - joint->dq()) * dgain;
             ioBody->joint(i)->u() = u;
-
-            // record joint positions
-            q_prev[i] = q_cur[i];
         }
-        root_coord_prev = root_coord;
         return true;
     }
 };
