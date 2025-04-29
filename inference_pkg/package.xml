@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>inference_pkg</name>
+  <version>0.0.0</version>
+  <description>
+    Tutorial on how to execute inference of neural networks
+  </description>
+  <maintainer email="k-kojima@jsk.imi.i.u-tokyo.ac.jp">Kunio Kojima</maintainer>
+  <license>MIT</license>
+  <author email="k-kojima@jsk.imi.i.u-tokyo.ac.jp">Kunio Kojima</author>
+  <url type="repository">https://github.com/agent-system/lecture2025</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+
+  </export>
+</package>
