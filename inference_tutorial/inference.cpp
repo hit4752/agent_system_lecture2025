@@ -15,18 +15,18 @@ int main(int argc, char** argv)
 
     try {
         // モデルをロード
-        torch::jit::script::Module model = torch::jit::load(model_path);
-        // torch::jit::script::Module model = torch::jit::load("policy_traced.pt");
+	torch::jit::script::Module model = torch::jit::load(model_path, torch::kCPU);  // CPU指定
+        // torch::jit::script::Module model = torch::jit::load(model_path, torch::kCUDA); // CUDA指定
 
         // ダミー入力を作成（obs_dimに合わせる）
         int obs_dim = 45; // 自分のモデルに合わせる
 
         // CPU
-        // torch::Tensor input = torch::randn({1, obs_dim});
+        torch::Tensor input = torch::randn({1, obs_dim});
 
         // CUDA
-        model.to(torch::kCUDA);
-        torch::Tensor input = torch::randn({1, obs_dim}).to(torch::kCUDA);
+        // model.to(torch::kCUDA);
+        // torch::Tensor input = torch::randn({1, obs_dim}).to(torch::kCUDA);
 
         // 推論
         std::vector<torch::jit::IValue> inputs;
