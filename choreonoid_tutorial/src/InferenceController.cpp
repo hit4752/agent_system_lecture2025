@@ -116,8 +116,10 @@ public:
         dist_ang = std::uniform_real_distribution<double>(ang_vel_range->at(0)->toDouble(), ang_vel_range->at(1)->toDouble());
 
         // --- Load model ---
-        model = torch::jit::load("/home/k-kojima/genesis_ws/policy_traced.pt");
-        model.to(torch::kCUDA);
+        // model = torch::jit::load("/home/k-kojima/genesis_ws/policy_traced.pt");
+        // model.to(torch::kCUDA);
+        model = torch::jit::load("/home/k-kojima/ros/agent_system_ws/src/lecture2025/inference_tutorial/policy_traced.pt", torch::kCPU);
+        model.to(torch::kCPU);
         model.eval();
 
         return true;
@@ -154,7 +156,8 @@ public:
             for(int i=0; i<num_actions; ++i) obs_vec.push_back(joint_vel[i] * dof_vel_scale);
             for(int i=0; i<num_actions; ++i) obs_vec.push_back(last_action[i]);
 
-            auto input = torch::from_blob(obs_vec.data(), {1, (long)obs_vec.size()}, torch::kFloat32).to(torch::kCUDA);
+            // auto input = torch::from_blob(obs_vec.data(), {1, (long)obs_vec.size()}, torch::kFloat32).to(torch::kCUDA);
+            auto input = torch::from_blob(obs_vec.data(), {1, (long)obs_vec.size()}, torch::kFloat32).to(torch::kCPU);
 
             std::vector<torch::jit::IValue> inputs;
             inputs.push_back(input);
