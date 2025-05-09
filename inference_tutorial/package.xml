@@ -12,6 +12,8 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
+  <exec_depend>python3-yaml</exec_depend>
+
   <export>
     <!-- Other tools can request additional information be placed here -->
 
