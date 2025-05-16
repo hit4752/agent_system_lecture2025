@@ -13,6 +13,7 @@ class InferenceController1 : public SimpleController
 {
     Body* ioBody;
     double dt;
+    int inference_interval_steps;
 
     Vector3 global_gravity;
     VectorXd last_action;
@@ -125,29 +126,9 @@ public:
         return true;
     }
 
-    virtual bool control() override
-    {
-        step_count++;
-
-        if(step_count % resample_interval_steps == 0){
-            command[0] = dist_lin_x(rng);
-            command[1] = dist_lin_y(rng);
-            command[2] = dist_ang(rng);
-        }
-
-        const auto rootLink = ioBody->rootLink();
-        const Isometry3d root_coord = rootLink->T();
-        Vector3 angular_velocity = rootLink->w();
-        Vector3 projected_gravity = root_coord.linear().transpose() * global_gravity;
-
-        std::vector<double> joint_pos(num_actions), joint_vel(num_actions);
-        for(int i=0; i<num_actions; ++i){
-            auto joint = ioBody->joint(motor_dofs[i]);
-            joint_pos[i] = joint->q();
-            joint_vel[i] = joint->dq();
-        }
-
+    bool inference(VectorXd& target_dof_pos, const Vector3d& angular_velocity, const Vector3d& projected_gravity, const VectorXd& joint_pos, const VectorXd& joint_vel) {
         try {
+            // observation vector
             std::vector<float> obs_vec;
             for(int i=0; i<3; ++i) obs_vec.push_back(angular_velocity[i] * ang_vel_scale);
             for(int i=0; i<3; ++i) obs_vec.push_back(projected_gravity[i]);
@@ -162,6 +143,7 @@ public:
             std::vector<torch::jit::IValue> inputs;
             inputs.push_back(input);
 
+            // inference
             torch::Tensor output = model.forward(inputs).toTensor();
             auto output_cpu = output.to(torch::kCPU);
             auto output_acc = output_cpu.accessor<float, 2>();
@@ -172,23 +154,55 @@ public:
                 action[i] = last_action[i];
             }
 
-            VectorXd target_dof_pos = action * action_scale + default_dof_pos;
+            target_dof_pos = action * action_scale + default_dof_pos;
+        }
+        catch (const c10::Error& e) {
+            std::cerr << "Inference error: " << e.what() << std::endl;
+        }
 
-            static const double P_gain = 100.0;
-            static const double D_gain = 10.0;
+        return true;
+    }
 
+    virtual bool control() override
+    {
+
+        if(step_count % resample_interval_steps == 0){
+            command[0] = dist_lin_x(rng);
+            command[1] = dist_lin_y(rng);
+            command[2] = dist_ang(rng);
+        }
+
+        const auto rootLink = ioBody->rootLink();
+        const Isometry3d root_coord = rootLink->T();
+        Vector3 angular_velocity = rootLink->w();
+        Vector3 projected_gravity = root_coord.linear().transpose() * global_gravity;
+
+        if (step_count == 0) {
+            // std::vector<double> joint_pos(num_actions), joint_vel(num_actions);
+            VectorXd joint_pos(num_actions), joint_vel(num_actions);
             for(int i=0; i<num_actions; ++i){
+                auto joint = ioBody->joint(motor_dofs[i]);
+                joint_pos[i] = joint->q();
+                joint_vel[i] = joint->dq();
+            }
+
+            VectorXd target_dof_pos;
+            inference(target_dof_pos, angular_velocity, projected_gravity, joint_pos, joint_vel);
+
+            // static const double P_gain = 100.0;
+            // static const double D_gain = 10.0;
+            static const double P_gain = 20.0;
+            static const double D_gain = 0.5;
+
+            for(int i=0; i<num_actions; ++i) {
                 auto joint = ioBody->joint(motor_dofs[i]);
                 double q = joint->q();
                 double dq = joint->dq();
                 double u = P_gain * (target_dof_pos[i] - q) - D_gain * dq;
                 joint->u() = u;
             }
-
         }
-        catch (const c10::Error& e) {
-            std::cerr << "Inference error: " << e.what() << std::endl;
-        }
+        step_count = (step_count + 1) % inference_interval_steps;
 
         return true;
     }
