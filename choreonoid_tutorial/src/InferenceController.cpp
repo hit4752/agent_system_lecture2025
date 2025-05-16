@@ -1,6 +1,7 @@
+#include <cnoid/MessageView>
 #include <cnoid/SimpleController>
-#include <cnoid/YAMLReader>
 #include <cnoid/ValueTree>
+#include <cnoid/YAMLReader>
 
 #include <torch/torch.h>
 #include <torch/script.h>
@@ -51,6 +52,11 @@ public:
     {
         dt = io->timeStep();
         ioBody = io->body();
+
+        inference_interval_steps = static_cast<int>(std::round(0.02 / dt)); // genesis dt = 0.02 [sec]
+        std::ostringstream oss;
+        oss << "inference_interval_steps: " << inference_interval_steps;
+        MessageView::instance()->putln(oss.str());
 
         global_gravity = Vector3(0.0, 0.0, -1.0);
 
