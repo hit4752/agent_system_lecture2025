@@ -116,9 +116,9 @@ public:
         dist_ang = std::uniform_real_distribution<double>(ang_vel_range->at(0)->toDouble(), ang_vel_range->at(1)->toDouble());
 
         // --- Load model ---
-        // model = torch::jit::load("/home/k-kojima/genesis_ws/policy_traced.pt");
+        // model = torch::jit::load("/home/k-kojima/genesis_ws/logs/go2-walking/policy_traced.pt")
         // model.to(torch::kCUDA);
-        model = torch::jit::load("/home/k-kojima/ros/agent_system_ws/src/lecture2025/inference_tutorial/policy_traced.pt", torch::kCPU);
+        model = torch::jit::load("/home/k-kojima/genesis_ws/logs/go2-walking/policy_traced.pt", torch::kCPU);
         model.to(torch::kCPU);
         model.eval();
 

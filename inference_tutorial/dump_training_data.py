@@ -58,7 +58,8 @@ def main():
     # example_obs = torch.randn(1, obs.shape[1], device="cpu")  # 例としてダミー入力作成
     # traced_model = torch.jit.trace(model.to("cpu"), example_obs)
 
-    traced_model.save("policy_traced.pt")
+    policy_path = os.path.join(log_dir, f"policy_traced.pt")
+    traced_model.save(policy_path)
 
 if __name__ == "__main__":
     main()
