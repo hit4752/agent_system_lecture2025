@@ -14,11 +14,15 @@ class InferenceController1 : public SimpleController
 {
     Body* ioBody;
     double dt;
+    double inference_dt = 0.02; // genesis dt is 0.02 sec
     int inference_interval_steps;
 
     Vector3 global_gravity;
     VectorXd last_action;
     VectorXd default_dof_pos;
+    VectorXd target_dof_pos;
+    // VectorXd target_dof_pos_prev;
+    // VectorXd target_dof_vel;
     std::vector<int> motor_dofs;
     std::vector<std::string> motor_dof_names;
 
@@ -53,7 +57,7 @@ public:
         dt = io->timeStep();
         ioBody = io->body();
 
-        inference_interval_steps = static_cast<int>(std::round(0.02 / dt)); // genesis dt = 0.02 [sec]
+        inference_interval_steps = static_cast<int>(std::round(inference_dt / dt));
         std::ostringstream oss;
         oss << "inference_interval_steps: " << inference_interval_steps;
         MessageView::instance()->putln(oss.str());
@@ -75,6 +79,7 @@ public:
         auto obs_cfg = root->findMapping("obs_cfg");
         auto command_cfg = root->findMapping("command_cfg");
 
+        // joint values
         num_actions = env_cfg->get("num_actions", 1);
         last_action = VectorXd::Zero(num_actions);
         default_dof_pos = VectorXd::Zero(num_actions);
@@ -91,6 +96,12 @@ public:
             default_dof_pos[i] = default_angles->get(name, 0.0);
         }
 
+        // use default_dof_pos for initializing target angles
+        target_dof_pos = default_dof_pos;
+        // target_dof_pos_prev = default_dof_pos;
+        // target_dof_vel = VectorXd::Zero(num_actions);
+
+        // scales
         action_scale = env_cfg->get("action_scale", 1.0);
 
         ang_vel_scale = obs_cfg->findMapping("obs_scales")->get("ang_vel", 1.0);
@@ -178,36 +189,38 @@ public:
             command[2] = dist_ang(rng);
         }
 
+        // get current states
         const auto rootLink = ioBody->rootLink();
         const Isometry3d root_coord = rootLink->T();
         Vector3 angular_velocity = rootLink->w();
         Vector3 projected_gravity = root_coord.linear().transpose() * global_gravity;
 
-        if (step_count == 0) {
-            // std::vector<double> joint_pos(num_actions), joint_vel(num_actions);
-            VectorXd joint_pos(num_actions), joint_vel(num_actions);
-            for(int i=0; i<num_actions; ++i){
-                auto joint = ioBody->joint(motor_dofs[i]);
-                joint_pos[i] = joint->q();
-                joint_vel[i] = joint->dq();
-            }
-
-            VectorXd target_dof_pos;
-            inference(target_dof_pos, angular_velocity, projected_gravity, joint_pos, joint_vel);
-
-            // static const double P_gain = 100.0;
-            // static const double D_gain = 10.0;
-            static const double P_gain = 20.0;
-            static const double D_gain = 0.5;
-
-            for(int i=0; i<num_actions; ++i) {
-                auto joint = ioBody->joint(motor_dofs[i]);
-                double q = joint->q();
-                double dq = joint->dq();
-                double u = P_gain * (target_dof_pos[i] - q) - D_gain * dq;
-                joint->u() = u;
-            }
+        VectorXd joint_pos(num_actions), joint_vel(num_actions);
+        for(int i=0; i<num_actions; ++i){
+            auto joint = ioBody->joint(motor_dofs[i]);
+            joint_pos[i] = joint->q();
+            joint_vel[i] = joint->dq();
         }
+
+        // inference
+        if (step_count == 0) {
+            inference(target_dof_pos, angular_velocity, projected_gravity, joint_pos, joint_vel);
+            // target_dof_vel = (target_dof_pos - target_dof_pos_prev) / inference_dt;
+            // target_dof_pos_prev = target_dof_pos;
+        }
+
+        // set target outputs
+        static const double P_gain = 20.0;
+        static const double D_gain = 0.5;
+        for(int i=0; i<num_actions; ++i) {
+            auto joint = ioBody->joint(motor_dofs[i]);
+            double q = joint->q();
+            double dq = joint->dq();
+            // double u = P_gain * (target_dof_pos[i] - q) + D_gain * (target_dof_vel[i] - dq);
+            double u = P_gain * (target_dof_pos[i] - q) + D_gain * (- dq);
+            joint->u() = u;
+        }
+
         step_count = (step_count + 1) % inference_interval_steps;
 
         return true;
