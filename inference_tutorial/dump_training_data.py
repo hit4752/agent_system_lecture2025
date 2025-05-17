@@ -14,8 +14,8 @@ from rsl_rl.runners import OnPolicyRunner
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--log_dir', type=str, required=True, help='Path to logs/xxx directory (contains cfgs.pkl)')
     parser.add_argument("-e", "--exp_name", type=str, default="go2-walking")
+    parser.add_argument("-l", "--log_dir", type=str, required=True, help='Path to logs/xxx directory (contains cfgs.pkl)')
     parser.add_argument("--ckpt", type=int, default=100)
     args = parser.parse_args()
 
