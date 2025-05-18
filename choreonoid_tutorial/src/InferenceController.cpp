@@ -29,6 +29,8 @@ class InferenceController1 : public SimpleController
     torch::jit::script::Module model;
 
     // Config values
+    double P_gain;
+    double D_gain;
     int num_actions = 1;
     double action_scale = 1.0;
     double ang_vel_scale = 1.0;
@@ -78,6 +80,9 @@ public:
         auto env_cfg = root->findMapping("env_cfg");
         auto obs_cfg = root->findMapping("obs_cfg");
         auto command_cfg = root->findMapping("command_cfg");
+
+        P_gain = env_cfg->get("kp", 20);
+        D_gain = env_cfg->get("kd", 0.5);
 
         // joint values
         num_actions = env_cfg->get("num_actions", 1);
@@ -210,8 +215,6 @@ public:
         }
 
         // set target outputs
-        static const double P_gain = 20.0;
-        static const double D_gain = 0.5;
         for(int i=0; i<num_actions; ++i) {
             auto joint = ioBody->joint(motor_dofs[i]);
             double q = joint->q();
