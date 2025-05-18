@@ -197,7 +197,7 @@ public:
         // get current states
         const auto rootLink = ioBody->rootLink();
         const Isometry3d root_coord = rootLink->T();
-        Vector3 angular_velocity = rootLink->w();
+        Vector3 angular_velocity = root_coord.linear().transpose() * rootLink->w();
         Vector3 projected_gravity = root_coord.linear().transpose() * global_gravity;
 
         VectorXd joint_pos(num_actions), joint_vel(num_actions);
