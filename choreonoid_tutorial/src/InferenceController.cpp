@@ -15,7 +15,7 @@ class InferenceController1 : public SimpleController
     Body* ioBody;
     double dt;
     double inference_dt = 0.02; // genesis dt is 0.02 sec
-    int inference_interval_steps;
+    size_t inference_interval_steps;
 
     Vector3 global_gravity;
     VectorXd last_action;
@@ -44,8 +44,8 @@ class InferenceController1 : public SimpleController
     Listing* lin_vel_x_range;
     Listing* lin_vel_y_range;
     Listing* ang_vel_range;
-    int resample_interval_steps = 50; // 例：1秒ごと (dt=0.02なら50step)
-    int step_count = 0;
+    size_t resample_interval_steps;
+    size_t step_count = 0;
 
     // 乱数生成器
     std::mt19937 rng;
@@ -83,6 +83,8 @@ public:
 
         P_gain = env_cfg->get("kp", 20);
         D_gain = env_cfg->get("kd", 0.5);
+
+        resample_interval_steps = static_cast<int>(std::round(env_cfg->get("resampling_time_s", 4.0) / dt));
 
         // joint values
         num_actions = env_cfg->get("num_actions", 1);
@@ -208,7 +210,7 @@ public:
         }
 
         // inference
-        if (step_count == 0) {
+        if (step_count % inference_interval_steps == 0) {
             inference(target_dof_pos, angular_velocity, projected_gravity, joint_pos, joint_vel);
             // target_dof_vel = (target_dof_pos - target_dof_pos_prev) / inference_dt;
             // target_dof_pos_prev = target_dof_pos;
@@ -224,7 +226,7 @@ public:
             joint->u() = u;
         }
 
-        step_count = (step_count + 1) % inference_interval_steps;
+        ++step_count;
 
         return true;
     }
