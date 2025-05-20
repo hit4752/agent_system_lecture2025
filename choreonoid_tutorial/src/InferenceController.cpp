@@ -24,7 +24,6 @@ class InferenceController1 : public SimpleController
     VectorXd target_dof_pos;
     // VectorXd target_dof_pos_prev;
     // VectorXd target_dof_vel;
-    std::vector<int> motor_dofs;
     std::vector<std::string> motor_dof_names;
 
     torch::jit::script::Module model;
@@ -132,14 +131,6 @@ public:
         ang_vel_range = command_cfg->findListing("ang_vel_range");
 
         // モータDOFのindex取得
-        for(const auto& name : motor_dof_names){
-            auto joint = ioBody->joint(name);
-            if(joint){
-                motor_dofs.push_back(joint->jointId());
-            } else {
-                std::cerr << "Joint " << name << " not found." << std::endl;
-            }
-        }
 
         // 乱数初期化
         rng.seed(std::random_device{}());
@@ -212,7 +203,7 @@ public:
 
         VectorXd joint_pos(num_actions), joint_vel(num_actions);
         for(int i=0; i<num_actions; ++i){
-            auto joint = ioBody->joint(motor_dofs[i]);
+            auto joint = ioBody->joint(motor_dof_names[i]);
             joint_pos[i] = joint->q();
             joint_vel[i] = joint->dq();
         }
@@ -226,7 +217,7 @@ public:
 
         // set target outputs
         for(int i=0; i<num_actions; ++i) {
-            auto joint = ioBody->joint(motor_dofs[i]);
+            auto joint = ioBody->joint(motor_dof_names[i]);
             double q = joint->q();
             double dq = joint->dq();
             // double u = P_gain * (target_dof_pos[i] - q) + D_gain * (target_dof_vel[i] - dq);
