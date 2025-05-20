@@ -6,6 +6,7 @@
 #include <torch/torch.h>
 #include <torch/script.h>
 
+#include <iostream>
 #include <random>  // C++標準乱数
 
 using namespace cnoid;
@@ -31,16 +32,16 @@ class InferenceController1 : public SimpleController
     // Config values
     double P_gain;
     double D_gain;
-    int num_actions = 1;
-    double action_scale = 1.0;
-    double ang_vel_scale = 1.0;
-    double lin_vel_scale = 1.0;
-    double dof_pos_scale = 1.0;
-    double dof_vel_scale = 1.0;
-    std::vector<double> command_scale = {1.0, 1.0, 1.0};
+    int num_actions;
+    double action_scale;
+    double ang_vel_scale;
+    double lin_vel_scale;
+    double dof_pos_scale;
+    double dof_vel_scale;
+    Vector3 command_scale;
 
     // Command resampling
-    std::vector<double> command{0.0, 0.0, 0.0};
+    Vector3d command;
     Listing* lin_vel_x_range;
     Listing* lin_vel_y_range;
     Listing* ang_vel_range;
@@ -73,7 +74,10 @@ public:
         }
         io->enableInput(ioBody->rootLink(), LinkPosition | LinkTwist);
 
-        // --- Load config ---
+        // command
+        command = Vector3d(0.0, 0.0, 0.0);
+
+        // load the config file
         YAMLReader reader;
         auto root = reader.loadDocument("/home/k-kojima/genesis_ws/logs/go2-walking/cfgs.yaml")->toMapping();
 
@@ -81,6 +85,7 @@ public:
         auto obs_cfg = root->findMapping("obs_cfg");
         auto command_cfg = root->findMapping("command_cfg");
 
+        // env_cfg
         P_gain = env_cfg->get("kp", 20);
         D_gain = env_cfg->get("kd", 0.5);
 
@@ -111,6 +116,7 @@ public:
         // scales
         action_scale = env_cfg->get("action_scale", 1.0);
 
+        // obs_cfg
         ang_vel_scale = obs_cfg->findMapping("obs_scales")->get("ang_vel", 1.0);
         lin_vel_scale = obs_cfg->findMapping("obs_scales")->get("lin_vel", 1.0);
         dof_pos_scale = obs_cfg->findMapping("obs_scales")->get("dof_pos", 1.0);
@@ -120,6 +126,7 @@ public:
         command_scale[1] = lin_vel_scale;
         command_scale[2] = ang_vel_scale;
 
+        // command_cfg
         lin_vel_x_range = command_cfg->findListing("lin_vel_x_range");
         lin_vel_y_range = command_cfg->findListing("lin_vel_y_range");
         ang_vel_range = command_cfg->findListing("ang_vel_range");
@@ -140,7 +147,7 @@ public:
         dist_lin_y = std::uniform_real_distribution<double>(lin_vel_y_range->at(0)->toDouble(), lin_vel_y_range->at(1)->toDouble());
         dist_ang = std::uniform_real_distribution<double>(ang_vel_range->at(0)->toDouble(), ang_vel_range->at(1)->toDouble());
 
-        // --- Load model ---
+        // load the network model
         // model = torch::jit::load("/home/k-kojima/genesis_ws/logs/go2-walking/policy_traced.pt")
         // model.to(torch::kCUDA);
         model = torch::jit::load("/home/k-kojima/genesis_ws/logs/go2-walking/policy_traced.pt", torch::kCPU);
@@ -194,6 +201,7 @@ public:
             command[0] = dist_lin_x(rng);
             command[1] = dist_lin_y(rng);
             command[2] = dist_ang(rng);
+            std::cout << "command velocity:" << command.transpose() << std::endl;
         }
 
         // get current states
