@@ -6,10 +6,13 @@
 #include <torch/torch.h>
 #include <torch/script.h>
 
+#include <cstdlib>
+#include <filesystem>
 #include <iostream>
 #include <random>  // C++標準乱数
 
 using namespace cnoid;
+namespace fs = std::filesystem;
 
 class InferenceController1 : public SimpleController
 {
@@ -76,9 +79,18 @@ public:
         // command
         command = Vector3d(0.0, 0.0, 0.0);
 
-        // load the config file
+        // find the cfgs file
+        fs::path inference_target_path = fs::path(std::getenv("HOME")) / fs::path("genesis_ws/logs/go2-walking/inference_target");
+        fs::path cfgs_path = inference_target_path / fs::path("cfgs.yaml");
+        if (!fs::exists(cfgs_path)) {
+            oss << cfgs_path << " is not found!!!";
+            MessageView::instance()->putln(oss.str());
+            return false;
+        }
+
+        // load configs
         YAMLReader reader;
-        auto root = reader.loadDocument("/home/k-kojima/genesis_ws/logs/go2-walking/cfgs.yaml")->toMapping();
+        auto root = reader.loadDocument(cfgs_path)->toMapping();
 
         auto env_cfg = root->findMapping("env_cfg");
         auto obs_cfg = root->findMapping("obs_cfg");
@@ -139,9 +151,15 @@ public:
         dist_ang = std::uniform_real_distribution<double>(ang_vel_range->at(0)->toDouble(), ang_vel_range->at(1)->toDouble());
 
         // load the network model
-        // model = torch::jit::load("/home/k-kojima/genesis_ws/logs/go2-walking/policy_traced.pt")
+        fs::path model_path = inference_target_path / fs::path("policy_traced.pt");
+        if (!fs::exists(model_path)) {
+            oss << model_path << " is not found!!!";
+            MessageView::instance()->putln(oss.str());
+            return false;
+        }
+        // model = torch::jit::load(model_path); // CUDA
         // model.to(torch::kCUDA);
-        model = torch::jit::load("/home/k-kojima/genesis_ws/logs/go2-walking/policy_traced.pt", torch::kCPU);
+        model = torch::jit::load(model_path, torch::kCPU); // CPU
         model.to(torch::kCPU);
         model.eval();
 
