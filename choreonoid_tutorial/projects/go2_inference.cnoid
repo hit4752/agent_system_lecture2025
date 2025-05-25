@@ -363,3 +363,4 @@ layoutOfToolBars:
       - { name: "GraphBar", x: 0, priority: 3 }
       - { name: "CaptureBar", x: 0, priority: 4 }
       - { name: "DisplayValueFormatBar", x: 0, priority: 5 }
+      - { name: "MovieRecorderBar", x: 1551, priority: 0 }
