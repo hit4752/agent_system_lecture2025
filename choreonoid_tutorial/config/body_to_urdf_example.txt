@@ -1,0 +1,2364 @@
+[SampleRobot]
+
+### 入力（.body形式）:
+format: ChoreonoidBody
+formatVersion: 1.0
+angleUnit: degree
+
+name: SR1
+rootLink: WAIST
+
+links:
+  -
+    name: WAIST
+    jointType: free
+    translation: [ 0, 0, 0.7135 ]
+    centerOfMass: [ 0, 0, 0.0375 ]
+    mass: 27.0
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements:
+      -
+        type: Shape
+        appearance: &WaistAppearance
+          material:
+            diffuseColor: [ 0.8, 0.8, 0.8 ]
+        geometry: { type: Box, size: [ 0.08, 0.08, 0.08 ] }
+      -
+        type: Transform
+        translation: [ 0, 0, 0.0955 ]
+        elements:
+          Shape:
+            appearance: *WaistAppearance
+            geometry: { type: Box, size: [ 0.05, 0.05, 0.111 ] }
+      -
+        type: AccelerationSensor
+        name: WaistAccelSensor
+        id: 0
+      -
+        type: RateGyroSensor
+        name: WaistGyro
+        id: 0
+      -
+        type: IMU
+        name: WaistIMU
+        id: 0
+  -
+    name: WAIST_P
+    parent: WAIST
+    translation : [ 0, 0, 0.176 ]
+    jointType: revolute
+    jointAxis: [ 0, 1, 0 ]
+    jointId: 26
+    jointRange: [ -90, 90 ]
+    centerOfMass: [ 0, 0, -0.1 ]
+    mass: 6.0
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements:
+      Shape:
+        geometry: { type: Cylinder, radius: 0.025, height: 0.05 }
+        appearance: &Appearance1
+          material:
+            diffuseColor: [ 0.6, 1.0, 0.6 ]
+  -
+    name: WAIST_R
+    parent: WAIST_P
+    jointType: revolute
+    jointAxis: [ 1, 0, 0 ]
+    jointId: 27
+    jointRange: [ -60, 60 ]
+    childLinks: [ CHEST ]
+    centerOfMass: [ 0.11, 0, 0.25 ]
+    mass: 30.0
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements:
+      -
+        type: Transform
+        rotation: [ 0, 0, 1, 90 ]
+        elements:
+          Shape:
+            geometry: { type: Cylinder, radius: 0.025, height: 0.05 }
+            appearance: &Appearance2
+              material:
+                diffuseColor: [0.6, 0.8, 0.6 ]
+      -
+        type: Transform
+        translation: [ 0, 0, 0.1625 ]
+        elements:
+          Shape:
+            geometry: { type: Box, size: [ 0.05, 0.05, 0.275 ] }
+            appearance: *Appearance2
+  -
+    name: CHEST
+    parent: WAIST_R
+    jointType: revolute
+    jointId: 28
+    jointRange: [ -90, 90 ]
+    translation: [ 0, 0, 0.35 ]
+    centerOfMass: [ 0, 0, 0 ]
+    mass: 13.0
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements:
+      -
+        type: Transform
+        rotation: [ 1, 0, 0, 90 ]
+        elements:
+          Shape:
+            geometry: { type: Cylinder, radius: 0.025, height: 0.1 }
+            appearance: &Appearance3
+              material:
+                diffuseColor: [ 0.8, 0.8, 0.8 ]
+      -
+        type: Shape
+        geometry: { type: Box, size: [ 0.15, 0.27, 0.05 ] }
+        appearance: *Appearance3
+      -
+        type: Transform
+        translation: [ 0, 0, 0.065 ]
+        elements:
+          Shape:
+            geometry: { type: Box, size: [ 0.05, 0.05, 0.03 ] }
+            appearance:
+              material:
+                diffuseColor: [ 0.5, 0.8, 0.5 ]
+      -
+        type: Transform
+        translation: [ -0.015, 0, 0.16 ]
+        elements:
+          Shape:
+            geometry: { type: Box, size: [ 0.31, 0.16, 0.16 ] }
+            appearance:
+              material:
+                diffuseColor: [ 0.5, 0.8, 0.5]
+      -
+        type: Camera
+        name: LeftCamera
+        translation: [ 0.15, 0.05, 0.15 ]
+        rotation: [ [ 0, 1, 0, -90 ], [ 0, 0, 1, -90 ] ]
+        id: 0
+        format: COLOR
+        nearClipDistance: 0.1
+        elements: &CameraShape
+          Transform:
+            rotation: [ 1, 0, 0, 90 ]
+            elements:
+              Shape:
+                geometry: { type: Cylinder, radius: 0.02, height: 0.025 }
+                appearance:
+                  material: { diffuseColor: [ 1, 0, 0 ] }
+      -
+        type: Camera
+        name: RightCamera
+        translation: [ 0.15, -0.05, 0.15 ]
+        rotation: [ [ 0, 1, 0, -90 ], [ 0, 0, 1, -90 ] ]
+        id: 1
+        format: COLOR
+        nearClipDistance: 0.1
+        elements: *CameraShape
+  -
+    name: LARM_SHOULDER_P
+    parent: CHEST
+    jointType: revolute
+    jointAxis: [ 0, 1, 0 ]
+    jointId: 19
+    jointRange: [ -180, 180 ]
+    translation: [ 0, 0.21, 0 ]
+    centerOfMass: [ 0.1, 0, 0 ]
+    mass: 3.0
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements:
+      Transform:
+        translation: [ 0, -0.05, 0 ]
+        elements: &ArmShape1
+          Shape: 
+            geometry: { type: Cylinder, radius: 0.025, height: 0.05 }
+  -
+    name: LARM_SHOULDER_R
+    parent: LARM_SHOULDER_P
+    jointType: revolute
+    jointAxis: [ 1, 0, 0 ]
+    jointId: 20
+    jointRange: [ -45, 180 ]
+    centerOfMass: [ 0, 0, -0.1 ]
+    mass: 0.6
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements: &ArmShape2
+      -
+        type: Transform
+        rotation: [ 0, 0, 1, 90 ]
+        elements:
+          Shape:
+            geometry: { type: Cylinder, radius: 0.025, height: 0.05 }
+            appearance:
+              material:
+                diffuseColor: [ 0.8, 0.9, 0.8 ]
+      -
+        type: Transform
+        translation: [ 0, 0, -0.1065 ]
+        elements:
+          Shape:
+            geometry: { type: Box, size: [ 0.05, 0.05, 0.163 ] }
+            appearance: *Appearance2
+  -
+    name: LARM_SHOULDER_Y
+    parent: LARM_SHOULDER_R
+    jointType: revolute
+    jointId: 21
+    jointRange: [ -90, 90 ]
+    translation: [ 0, 0, -0.263 ]
+    centerOfMass: [ 0, 0, 0 ]
+    mass: 1.0
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements: &ArmShape3
+      Transform:
+        translation: [ 0, 0, 0.05 ]
+        rotation: [ 1, 0, 0, 90 ]
+        elements:
+          Shape:
+            geometry: { type: Cylinder, radius: 0.025, height: 0.05 }
+  -
+    name: LARM_ELBOW
+    parent: LARM_SHOULDER_Y
+    jointType: revolute
+    jointAxis: [ 0, 1, 0 ]
+    jointId: 22
+    jointRange: [ -150, 0 ]
+    centerOfMass: [ 0, 0, -0.3 ]
+    mass: 0.6
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements: &ArmShape4
+      -
+        type: Shape
+        geometry: { type: Cylinder, radius: 0.025, height: 0.05 }
+        appearance: &Appearance4
+          material:
+            diffuseColor: [ 0.8, 1.0, 0.8 ]
+      -
+        type: Transform
+        translation: [ 0, 0, -0.0985 ]
+        elements:
+          Shape:
+            geometry: { type: Box, size: [ 0.05, 0.05, 0.147 ] }
+            appearance: *Appearance4
+  -
+    name: LARM_WRIST_Y
+    parent: LARM_ELBOW
+    jointType: revolute
+    jointAxis: [ 0, 0, 1 ]
+    jointId: 23
+    jointRange: [ -90, 90 ]
+    translation: [ 0, 0, -0.247 ]
+    centerOfMass: [ 0, 0, 0.1 ]
+    mass: 0.4
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements: &ArmShape5
+      Transform:
+        translation: [ 0, 0, 0.05 ]
+        rotation: [ 1, 0, 0, 90 ]
+        elements:
+          Shape:
+            geometry: { type: Cylinder, radius: 0.025, height: 0.05 }
+  -
+    name: LARM_WRIST_P
+    parent: LARM_WRIST_Y
+    jointType: revolute
+    jointAxis: [ 0, 1, 0 ]
+    jointId:  24
+    jointRange: [ -90, 90 ]
+    centerOfMass: [ -0.1, 0, 0 ]
+    mass: 0.4
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements: &ArmShape6
+      Shape:
+        geometry: { type: Cylinder, radius: 0.025, height: 0.05 }
+  -
+    name: LARM_WRIST_R
+    parent: LARM_WRIST_P
+    jointType: revolute
+    jointAxis: [ 1, 0, 0 ]
+    jointId:  25
+    jointRange: [ -90, 90 ]
+    centerOfMass: [ 0, 0, -0.1 ]
+    mass: 0.4
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    forceRange: [ -1000, 1000 ]
+    elements: &ArmShape7
+      -
+        type: Transform
+        rotation: [ 0, 0, 1, 90 ]
+        elements:
+          Shape:
+            geometry: { type: Cylinder, radius: 0.025, height: 0.05 }
+            appearance: &Appearance7
+              material:
+                diffuseColor: [ 0.7, 0.85, 0.7 ]
+      -
+        type: Transform
+        translation: [ 0, 0, -0.1125 ]
+        elements:
+          Shape:
+            geometry: { type: Box, size: [ 0.05, 0.05, 0.175 ] }
+            appearance: *Appearance7
+  -
+    name: RARM_SHOULDER_P
+    parent: CHEST
+    jointType: revolute
+    jointAxis: [ 0, 1, 0 ]
+    jointId: 6
+    jointRange: [ -180, 180 ]
+    translation: [ 0, -0.21, 0 ]
+    centerOfMass: [ 0.1, 0, 0 ]
+    mass: 3.0
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements:
+      Transform:
+        translation: [ 0, 0.05, 0 ]
+        elements: *ArmShape1
+  -
+    name: RARM_SHOULDER_R
+    parent: RARM_SHOULDER_P
+    jointType: revolute
+    jointAxis: [ 1, 0, 0 ]
+    jointId: 7
+    jointRange: [ -180, 45 ]
+    centerOfMass: [ 0, 0, -0.1 ]
+    mass: 0.6
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements: *ArmShape2
+  -
+    name: RARM_SHOULDER_Y
+    parent: RARM_SHOULDER_R
+    jointType: revolute
+    jointId:  8
+    jointRange: [ -90, 90 ]
+    translation: [ 0, 0, -0.263 ]
+    centerOfMass: [ 0, 0, 0 ]
+    mass: 1.0
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements: *ArmShape3
+  -
+    name: RARM_ELBOW
+    parent: RARM_SHOULDER_Y
+    jointType: revolute
+    jointAxis: [ 0, 1, 0 ]
+    jointId: 9
+    jointRange: [ -150, 0 ]
+    centerOfMass: [ 0, 0, -0.3 ]
+    mass: 0.6
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements: *ArmShape4
+  -
+    name: RARM_WRIST_Y
+    parent: RARM_ELBOW
+    jointType: revolute
+    jointAxis: [ 0, 0, 1 ]
+    jointId:  10
+    jointRange: [ -90, 90 ]
+    translation: [ 0, 0, -0.247 ]
+    centerOfMass: [ 0, 0, 0.1 ]
+    mass: 0.4
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements: *ArmShape5
+  -
+    name: RARM_WRIST_P
+    parent: RARM_WRIST_Y
+    jointType: revolute
+    jointAxis: [ 0, 1, 0 ]
+    jointId:  11
+    jointRange: [ -90, 90 ]
+    centerOfMass: [ -0.1, 0, 0 ]
+    mass: 0.4
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements: *ArmShape6
+  -
+    name: RARM_WRIST_R
+    parent: RARM_WRIST_P
+    jointType: revolute
+    jointAxis: [ 1, 0, 0 ]
+    jointId:  12
+    jointRange: [ -90, 90 ]
+    centerOfMass: [ 0, 0, -0.1 ]
+    mass: 0.4
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    forceRange: [ -1000, 1000 ]
+    elements: *ArmShape7
+  -
+    name: LLEG_HIP_R
+    parent: WAIST
+    jointType: revolute
+    jointAxis: [ 1, 0, 0 ]
+    jointId: 13
+    jointRange: [ -45, 45 ]
+    translation: [ 0, 0.09, 0 ]
+    centerOfMass: [ 0, 0.1, 0 ]
+    mass: 2.5
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements: &LegShape1
+      Transform:
+        rotation: [ 0, 0, 1, 90 ]
+        elements:
+          Shape:
+            appearance:
+              material:
+                diffuseColor: [ 0.8, 0.8, 0.8 ]
+            geometry: { type: Cylinder, radius: 0.05, height: 0.1 }
+  -
+    name: LLEG_HIP_P
+    parent: LLEG_HIP_R
+    jointType: revolute
+    jointAxis: [ 0, 1, 0 ]
+    jointId: 14
+    jointRange: [ -90, 90 ]
+    centerOfMass: [ 0, 0, -0.15 ]
+    mass: 2.0
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements: &LegShape2
+      Shape:
+        appearance:
+          material:
+            diffuseColor: [ 0.8, 0.8, 0.8 ]
+        geometry: { type: Cylinder, radius: 0.05, height: 0.1 }
+  -
+    name: LLEG_HIP_Y
+    parent: LLEG_HIP_P
+    jointType: revolute
+    jointId: 15
+    jointRange: [ -60, 60 ]
+    translation: [ 0, 0, -0.3535 ]
+    centerOfMass: [ 0, 0.04, 0 ]
+    mass: 5.1
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements: &LegShape3
+      -
+        type: Transform
+        translation: [ 0, 0, 0.1 ]
+        rotation: [ 1, 0, 0, 90 ]
+        elements:
+          Shape:
+            appearance: &LegApp3
+              material:
+                diffuseColor: [ 0.7, 0.8, 0.7 ]
+            geometry: { type: Cylinder, radius: 0.05, height: 0.1 }
+      -
+        type: Transform
+        translation: [ 0, 0, 0.22675 ]
+        elements:
+          Shape:
+            appearance: *LegApp3
+            geometry: { type: Box, size: [ 0.1, 0.1, 0.1535 ] }
+  -
+    name: LLEG_KNEE
+    parent: LLEG_HIP_Y
+    jointType: revolute
+    jointAxis: [ 0, 1, 0 ]
+    jointId: 16
+    jointRange: [ 0, 150 ]
+    centerOfMass: [ 0, 0, -0.3 ]
+    mass: 7.0
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements: &LegShape4
+      -
+        type: Shape
+        geometry: { type: Cylinder, radius: 0.05, height: 0.1 }
+        appearance: &LegApp4
+          material:
+            diffuseColor: [ 0.7, 0.85, 0.7 ]
+      -
+        type: Transform
+        translation: [ 0, 0, -0.15 ]
+        elements:
+          Shape:
+            geometry: { type: Box, size: [ 0.1, 0.1, 0.2 ] }
+            appearance: *LegApp4
+  -
+    name: LLEG_ANKLE_P
+    parent: LLEG_KNEE
+    jointType: revolute
+    jointAxis: [ 0, 1, 0 ]
+    jointId: 17
+    jointRange: [ -80, 45 ]
+    translation: [ 0, 0, -0.3 ]
+    centerOfMass: [ -0.15, 0, 0 ]
+    mass: 2.5
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements: &LegShape5
+      Shape:
+        geometry: { type: Cylinder, radius: 0.05, height: 0.1 }
+        appearance:
+          material:
+            diffuseColor: [ 0.8, 0.8, 0.8 ]
+  -
+    name: LLEG_ANKLE_R
+    parent: LLEG_ANKLE_P
+    jointType: revolute
+    jointAxis: [ 1, 0, 0 ]
+    jointId: 18
+    jointRange: [ -45, 45 ]
+    centerOfMass: [ 0.28, 0, -0.2 ]
+    mass: 1.9
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    material: Sole
+    elements:
+      -
+        type: ForceSensor
+        name: LeftAnkleForceSensor
+        id: 0
+      - &LegShape6
+        type: Group
+        elements:
+          -
+            type: Transform
+            translation: [ 0.1, 0, 0 ]
+            rotation: [ 0, 0, 1, 90 ]
+            elements:
+              Shape:
+                geometry: { type: Cylinder, radius: 0.05, height: 0.1 }
+                appearance: &LegApp6
+                  material:
+                    diffuseColor: [ 0.0, 0.5, 0.0 ]
+          -
+            type: Transform
+            translation: [ 0.055, 0, -0.05 ]
+            elements:
+              Shape:
+                geometry: { type: Box, size: [ 0.25, 0.14, 0.01 ] }
+                appearance: *LegApp6
+  -
+    name: RLEG_HIP_R
+    parent: WAIST
+    jointType: revolute
+    jointAxis: [ 1, 0, 0 ]
+    jointId: 0
+    jointRange: [ -45, 45 ]
+    translation: [ 0, -0.09, 0 ]
+    centerOfMass: [ 0, -0.1, 0 ]
+    mass: 2.5
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements: *LegShape1
+  -
+    name: RLEG_HIP_P
+    parent: RLEG_HIP_R
+    jointType: revolute
+    jointAxis: [ 0, 1, 0 ]
+    jointId: 1
+    jointRange: [ -90, 90 ]
+    centerOfMass: [ 0, 0, -0.15 ]
+    mass: 2.0
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements: *LegShape2
+  -
+    name: RLEG_HIP_Y
+    parent: RLEG_HIP_P
+    jointType: revolute
+    jointId: 2
+    jointRange: [ -60, 60 ]
+    translation: [ 0, 0, -0.3535 ]
+    centerOfMass: [ 0, -0.04, 0 ]
+    mass: 5.1
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements: *LegShape3
+  -
+    name: RLEG_KNEE
+    parent: RLEG_HIP_Y
+    jointType: revolute
+    jointAxis: [ 0, 1, 0 ]
+    jointId: 3
+    jointRange: [ 0, 150 ]
+    centerOfMass: [ 0, 0, -0.3 ]
+    mass: 7.0
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements: *LegShape4
+  -
+    name: RLEG_ANKLE_P
+    parent: RLEG_KNEE
+    jointType: revolute
+    jointAxis: [ 0, 1, 0 ]
+    jointId: 4
+    jointRange: [ -80, 45 ]
+    translation: [ 0, 0, -0.3 ]
+    centerOfMass: [ -0.15, 0, 0 ]
+    mass: 2.5
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    elements: *LegShape5
+  -
+    name: RLEG_ANKLE_R
+    parent: RLEG_ANKLE_P
+    jointType: revolute
+    jointAxis: [ 1, 0, 0 ]
+    jointId: 5
+    jointRange: [ -45, 45 ]
+    centerOfMass: [ 0.28, 0, -0.2 ]
+    mass: 1.9
+    inertia: [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1 ]
+    material: Sole
+    elements:
+      -
+        type: ForceSensor
+        name: RightAnkleForceSensor
+        id: 1
+      - *LegShape6
+
+standardPose: [ 
+   0, -30, 0,  60, -30, 0,
+  20, -10, 0, -40,   0, 0, 0,
+   0, -30, 0,  60, -30, 0,
+  20,  10, 0, -40,   0, 0, 0,
+   0,   0, 0 
+]
+
+linkGroup:
+  - name: UPPER-BODY
+    links:
+      - WAIST_P
+      - WAIST_R
+      - CHEST
+      - name: ARMS
+        links:
+          - name: R-ARM
+            links: [ RARM_SHOULDER_P, RARM_SHOULDER_R, RARM_SHOULDER_Y, RARM_ELBOW, 
+                     RARM_WRIST_Y, RARM_WRIST_P, RARM_WRIST_R ]
+          - name: L-ARM
+            links: [ LARM_SHOULDER_P, LARM_SHOULDER_R, LARM_SHOULDER_Y, LARM_ELBOW, 
+                     LARM_WRIST_Y, LARM_WRIST_P, LARM_WRIST_R ]
+  - WAIST
+  - name: LEGS
+    links:
+      - name: R-LEG
+        links: [ RLEG_HIP_R, RLEG_HIP_P, RLEG_HIP_Y, RLEG_KNEE, RLEG_ANKLE_P, RLEG_ANKLE_R ]
+      - name: L-LEG
+        links: [ LLEG_HIP_R, LLEG_HIP_P, LLEG_HIP_Y, LLEG_KNEE, LLEG_ANKLE_P, LLEG_ANKLE_R ]
+
+foot_links:
+  - link: LLEG_ANKLE_R
+    sole_center: [ 0.05, 0.0, -0.055 ]
+  - link: RLEG_ANKLE_R
+    sole_center: [ 0.05, 0.0, -0.055 ]
+
+defaultIKsetup:
+  WAIST: [ RLEG_ANKLE_R, LLEG_ANKLE_R ]
+  RLEG_ANKLE_R: [ WAIST ]
+  LLEG_ANKLE_R: [ WAIST ]
+
+possibleIkInterpolationLinks: [ WAIST, RLEG_ANKLE_R, LLEG_ANKLE_R ]
+defaultIkInterpolationLinks: [ WAIST, RLEG_ANKLE_R, LLEG_ANKLE_R ]
+possileSupportLinks: [ RLEG_ANKLE_R, LLEG_ANKLE_R ]
+
+collision_detection_rules:
+  - disabled_link_chain_level: 3
+
+### 出力（URDF形式）:
+<robot name="SR1">
+  <!-- root link -->
+  <link name="WAIST">
+    <inertial>
+      <mass value="27.0"/>
+      <origin xyz="0.0 0.0 0.0375"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <geometry>
+        <box size="0.08 0.08 0.08"/>
+      </geometry>
+      <material name="WaistAppearance">
+        <color rgba="0.8 0.8 0.8 1.0"/>
+      </material>
+    </visual>
+    <visual>
+      <origin xyz="0.0 0.0 0.0955"/>
+      <geometry>
+        <box size="0.05 0.05 0.111"/>
+      </geometry>
+      <material name="WaistAppearance"/>
+    </visual>
+
+    <collision>
+      <geometry>
+        <box size="0.08 0.08 0.08"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.0 0.0 0.0955"/>
+      <geometry>
+        <box size="0.05 0.05 0.111"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- right leg -->
+  <joint name="RLEG_HIP_R" type="revolute">
+    <origin xyz="0.0 -0.09 0.0"/>
+    <axis xyz="1 0 0"/>
+    <parent link="WAIST"/>
+    <child link="RLEG_HIP_R"/>
+    <limit lower="-0.785398163397" upper="0.785398163397" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="RLEG_HIP_R">
+    <inertial>
+      <mass value="2.5"/>
+      <origin xyz="0.0 -0.1 0.0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin rpy="1.57 0.0 1.57"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+      <material name="Appearance3"/>
+    </visual>
+
+    <collision>
+      <origin rpy="1.57 0.0 1.57"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="RLEG_HIP_P" type="revolute">
+    <axis xyz="0 1 0"/>
+    <parent link="RLEG_HIP_R"/>
+    <child link="RLEG_HIP_P"/>
+    <limit lower="-1.57" upper="1.57" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="RLEG_HIP_P">
+    <inertial>
+      <mass value="2.0"/>
+      <origin xyz="0.0 0.0 -0.15"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+      <material name="Appearance3"/>
+    </visual>
+
+    <collision>
+      <origin rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="RLEG_HIP_Y" type="revolute">
+    <origin xyz="0.0 0.0 -0.3535"/>
+    <axis xyz="0 0 1"/>
+    <parent link="RLEG_HIP_P"/>
+    <child link="RLEG_HIP_Y"/>
+    <limit lower="-1.0471975512" upper="1.0471975512" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="RLEG_HIP_Y">
+    <inertial>
+      <mass value="5.1"/>
+      <origin xyz="0.0 -0.04 0.0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0.0 0.0 0.1"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+      <material name="Appearance5"/>
+    </visual>
+    <visual>
+      <origin xyz="0.0 0.0 0.22675"/>
+      <geometry>
+        <box size="0.1 0.1 0.1535"/>
+      </geometry>
+      <material name="Appearance5"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0.0 0.0 0.1"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.0 0.0 0.22675"/>
+      <geometry>
+        <box size="0.1 0.1 0.1535"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="RLEG_KNEE" type="revolute">
+    <axis xyz="0 1 0"/>
+    <parent link="RLEG_HIP_Y"/>
+    <child link="RLEG_KNEE"/>
+    <limit lower="0.0" upper="2.61799387799" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="RLEG_KNEE">
+    <inertial>
+      <mass value="7.0"/>
+      <origin xyz="0.0 0.0 -0.3"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+      <material name="Appearance7"/>
+    </visual>
+    <visual>
+      <origin xyz="0.0 0.0 -0.15"/>
+      <geometry>
+        <box size="0.1 0.1 0.2"/>
+      </geometry>
+      <material name="Appearance7"/>
+    </visual>
+
+    <collision>
+      <origin rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.0 0.0 -0.15"/>
+      <geometry>
+        <box size="0.1 0.1 0.2"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="RLEG_ANKLE_P" type="revolute">
+    <origin xyz="0.0 0.0 -0.3"/>
+    <axis xyz="0 1 0"/>
+    <parent link="RLEG_KNEE"/>
+    <child link="RLEG_ANKLE_P"/>
+    <limit lower="-1.3962634016" upper="0.785398163397" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="RLEG_ANKLE_P">
+    <inertial>
+      <mass value="2.5"/>
+      <origin xyz="-0.15 0.0 0.0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+      <material name="Appearance3"/>
+    </visual>
+
+    <collision>
+      <origin rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="RLEG_ANKLE_R" type="revolute">
+    <axis xyz="1 0 0"/>
+    <parent link="RLEG_ANKLE_P"/>
+    <child link="RLEG_ANKLE_R"/>
+    <limit lower="-0.785398163397" upper="0.785398163397" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="RLEG_ANKLE_R">
+    <inertial>
+      <mass value="1.9"/>
+      <origin xyz="0.28 0.0 -0.2"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0.1 0.0 0.0" rpy="1.57 0.0 1.57"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+      <material name="Appearance6"/>
+    </visual>
+    <visual>
+      <origin xyz="0.055 0.0 -0.05"/>
+      <geometry>
+        <box size="0.25 0.14 0.01"/>
+      </geometry>
+      <material name="Appearance6"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0.1 0.0 0.0" rpy="1.57 0.0 1.57"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.055 0.0 -0.05"/>
+      <geometry>
+        <box size="0.25 0.14 0.01"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- right arm -->
+  <joint name="RARM_SHOULDER_P" type="revolute">
+    <origin xyz="0.0 -0.21 0.0"/>
+    <axis xyz="0 1 0"/>
+    <parent link="CHEST"/>
+    <child link="RARM_SHOULDER_P"/>
+    <limit lower="-3.14" upper="3.14" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="RARM_SHOULDER_P">
+    <inertial>
+      <mass value="3.0"/>
+      <origin xyz="0.1 0.0 0.0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0.0 0.05 0.0" rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0.0 0.05 0.0" rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="RARM_SHOULDER_R" type="revolute">
+    <axis xyz="1 0 0"/>
+    <parent link="RARM_SHOULDER_P"/>
+    <child link="RARM_SHOULDER_R"/>
+    <limit lower="-3.14" upper="0.785398163397" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="RARM_SHOULDER_R">
+    <inertial>
+      <mass value="0.6"/>
+      <origin xyz="0.0 0.0 -0.1"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin rpy="0.0 1.57 0.0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+      <material name="Appearance2"/>
+    </visual>
+    <visual>
+      <origin xyz="0.0 0.0 -0.1065"/>
+      <geometry>
+        <box size="0.05 0.05 0.163"/>
+      </geometry>
+      <material name="Appearance2"/>
+    </visual>
+
+    <collision>
+      <origin rpy="0.0 1.57 0.0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.0 0.0 -0.1065"/>
+      <geometry>
+        <box size="0.05 0.05 0.163"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="RARM_SHOULDER_Y" type="revolute">
+    <origin xyz="0.0 0.0 -0.263"/>
+    <axis xyz="0 0 1"/>
+    <parent link="RARM_SHOULDER_R"/>
+    <child link="RARM_SHOULDER_Y"/>
+    <limit lower="-1.57" upper="1.57" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="RARM_SHOULDER_Y">
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0.0 0.0 0.0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0.0 0.0 0.05"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0.0 0.0 0.05"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="RARM_ELBOW" type="revolute">
+    <axis xyz="0 1 0"/>
+    <parent link="RARM_SHOULDER_Y"/>
+    <child link="RARM_ELBOW"/>
+    <limit lower="-2.61799387799" upper="0.0" effort="500.0" velocity="0.0"/>
+  </joint>
+
+  <link name="RARM_ELBOW">
+    <inertial>
+      <mass value="0.6"/>
+      <origin xyz="0.0 0.0 -0.3"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+      <material name="Appearance4"/>
+    </visual>
+    <visual>
+      <origin xyz="0.0 0.0 -0.0985"/>
+      <geometry>
+        <box size="0.05 0.05 0.147"/>
+      </geometry>
+      <material name="Appearance4"/>
+    </visual>
+
+    <collision>
+      <origin rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.0 0.0 -0.0985"/>
+      <geometry>
+        <box size="0.05 0.05 0.147"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="RARM_WRIST_Y" type="revolute">
+    <origin xyz="0.0 0.0 -0.247"/>
+    <axis xyz="0 0 1"/>
+    <parent link="RARM_ELBOW"/>
+    <child link="RARM_WRIST_Y"/>
+    <limit lower="-1.57" upper="1.57" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="RARM_WRIST_Y">
+    <inertial>
+      <mass value="0.4"/>
+      <origin xyz="0.0 0.0 0.1"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0.0 0.0 0.05"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0.0 0.0 0.05"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="RARM_WRIST_P" type="revolute">
+    <axis xyz="0 1 0"/>
+    <parent link="RARM_WRIST_Y"/>
+    <child link="RARM_WRIST_P"/>
+    <limit lower="-1.57" upper="1.57" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="RARM_WRIST_P">
+    <inertial>
+      <mass value="0.4"/>
+      <origin xyz="-0.1 0.0 0.0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="RARM_WRIST_R" type="revolute">
+    <axis xyz="1 0 0"/>
+    <parent link="RARM_WRIST_P"/>
+    <child link="RARM_WRIST_R"/>
+    <limit lower="-1.57" upper="1.57" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="RARM_WRIST_R">
+    <inertial>
+      <mass value="0.4"/>
+      <origin xyz="0.0 0.0 -0.1"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin rpy="1.57 0.0 1.57"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+      <material name="Appearance7"/>
+    </visual>
+    <visual>
+      <origin xyz="0.0 0.0 -0.1125"/>
+      <geometry>
+        <box size="0.05 0.05 0.175"/>
+      </geometry>
+      <material name="Appearance7"/>
+    </visual>
+
+    <collision>
+      <origin rpy="1.57 0.0 1.57"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.0 0.0 -0.1125"/>
+      <geometry>
+        <box size="0.05 0.05 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- left leg -->
+  <joint name="LLEG_HIP_R" type="revolute">
+    <origin xyz="0.0 0.09 0.0"/>
+    <axis xyz="1 0 0"/>
+    <parent link="WAIST"/>
+    <child link="LLEG_HIP_R"/>
+    <limit lower="-0.785398163397" upper="0.785398163397" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="LLEG_HIP_R">
+    <inertial>
+      <mass value="2.5"/>
+      <origin xyz="0.0 0.1 0.0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin rpy="1.57 0.0 1.57"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+      <material name="Appearance3"/>
+    </visual>
+
+    <collision>
+      <origin rpy="1.57 0.0 1.57"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="LLEG_HIP_P" type="revolute">
+    <axis xyz="0 1 0"/>
+    <parent link="LLEG_HIP_R"/>
+    <child link="LLEG_HIP_P"/>
+    <limit lower="-1.57" upper="1.57" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="LLEG_HIP_P">
+    <inertial>
+      <mass value="2.0"/>
+      <origin xyz="0.0 0.0 -0.15"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+      <material name="Appearance3"/>
+    </visual>
+
+    <collision>
+      <origin rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="LLEG_HIP_Y" type="revolute">
+    <origin xyz="0.0 0.0 -0.3535"/>
+    <axis xyz="0 0 1"/>
+    <parent link="LLEG_HIP_P"/>
+    <child link="LLEG_HIP_Y"/>
+    <limit lower="-1.0471975512" upper="1.0471975512" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="LLEG_HIP_Y">
+    <inertial>
+      <mass value="5.1"/>
+      <origin xyz="0.0 0.04 0.0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0.0 0.0 0.1"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+      <material name="Appearance5">
+        <color rgba="0.7 0.8 0.7 1.0"/>
+      </material>
+    </visual>
+    <visual>
+      <origin xyz="0.0 0.0 0.22675"/>
+      <geometry>
+        <box size="0.1 0.1 0.1535"/>
+      </geometry>
+      <material name="Appearance5"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0.0 0.0 0.1"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.0 0.0 0.22675"/>
+      <geometry>
+        <box size="0.1 0.1 0.1535"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="LLEG_KNEE" type="revolute">
+    <axis xyz="0 1 0"/>
+    <parent link="LLEG_HIP_Y"/>
+    <child link="LLEG_KNEE"/>
+    <limit lower="0.0" upper="2.61799387799" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="LLEG_KNEE">
+    <inertial>
+      <mass value="7.0"/>
+      <origin xyz="0.0 0.0 -0.3"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+      <material name="Appearance7"/>
+    </visual>
+    <visual>
+      <origin xyz="0.0 0.0 -0.15"/>
+      <geometry>
+        <box size="0.1 0.1 0.2"/>
+      </geometry>
+      <material name="Appearance7"/>
+    </visual>
+
+    <collision>
+      <origin rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.0 0.0 -0.15"/>
+      <geometry>
+        <box size="0.1 0.1 0.2"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="LLEG_ANKLE_P" type="revolute">
+    <origin xyz="0.0 0.0 -0.3"/>
+    <axis xyz="0 1 0"/>
+    <parent link="LLEG_KNEE"/>
+    <child link="LLEG_ANKLE_P"/>
+    <limit lower="-1.3962634016" upper="0.785398163397" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="LLEG_ANKLE_P">
+    <inertial>
+      <mass value="2.5"/>
+      <origin xyz="-0.15 0.0 0.0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+      <material name="Appearance3"/>
+    </visual>
+
+    <collision>
+      <origin rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="LLEG_ANKLE_R" type="revolute">
+    <axis xyz="1 0 0"/>
+    <parent link="LLEG_ANKLE_P"/>
+    <child link="LLEG_ANKLE_R"/>
+    <limit lower="-0.785398163397" upper="0.785398163397" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="LLEG_ANKLE_R">
+    <inertial>
+      <mass value="1.9"/>
+      <origin xyz="0.28 0.0 -0.2"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0.1 0.0 0.0" rpy="1.57 0.0 1.57"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+      <material name="Appearance6">
+        <color rgba="0.0 0.5 0.0 1.0"/>
+      </material>
+    </visual>
+    <visual>
+      <origin xyz="0.055 0.0 -0.05"/>
+      <geometry>
+        <box size="0.25 0.14 0.01"/>
+      </geometry>
+      <material name="Appearance6"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0.1 0.0 0.0" rpy="1.57 0.0 1.57"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.055 0.0 -0.05"/>
+      <geometry>
+        <box size="0.25 0.14 0.01"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- left arm -->
+  <joint name="LARM_SHOULDER_P" type="revolute">
+    <origin xyz="0.0 0.21 0.0"/>
+    <axis xyz="0 1 0"/>
+    <parent link="CHEST"/>
+    <child link="LARM_SHOULDER_P"/>
+    <limit lower="-3.14" upper="3.14" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="LARM_SHOULDER_P">
+    <inertial>
+      <mass value="3.0"/>
+      <origin xyz="0.1 0.0 0.0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0.0 -0.05 0.0" rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0.0 -0.05 0.0" rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="LARM_SHOULDER_R" type="revolute">
+    <axis xyz="1 0 0"/>
+    <parent link="LARM_SHOULDER_P"/>
+    <child link="LARM_SHOULDER_R"/>
+    <limit lower="-0.785398163397" upper="3.14159265359" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="LARM_SHOULDER_R">
+    <inertial>
+      <mass value="0.6"/>
+      <origin xyz="0.0 0.0 -0.1"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin rpy="0.0 1.57 0.0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+      <material name="Appearance2"/>
+    </visual>
+    <visual>
+      <origin xyz="0.0 0.0 -0.1065"/>
+      <geometry>
+        <box size="0.05 0.05 0.163"/>
+      </geometry>
+      <material name="Appearance2"/>
+    </visual>
+
+    <collision>
+      <origin rpy="0.0 1.57 0.0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.0 0.0 -0.1065"/>
+      <geometry>
+        <box size="0.05 0.05 0.163"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="LARM_SHOULDER_Y" type="revolute">
+    <origin xyz="0.0 0.0 -0.263"/>
+    <axis xyz="0 0 1"/>
+    <parent link="LARM_SHOULDER_R"/>
+    <child link="LARM_SHOULDER_Y"/>
+    <limit lower="-1.57" upper="1.57" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="LARM_SHOULDER_Y">
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0.0 0.0 0.0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0.0 0.0 0.05"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0.0 0.0 0.05"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="LARM_ELBOW" type="revolute">
+    <axis xyz="0 1 0"/>
+    <parent link="LARM_SHOULDER_Y"/>
+    <child link="LARM_ELBOW"/>
+    <limit lower="-2.61799387799" upper="0.0" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="LARM_ELBOW">
+    <inertial>
+      <mass value="0.6"/>
+      <origin xyz="0.0 0.0 -0.3"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+      <material name="Appearance4">
+        <color rgba="0.8 1.0 0.8 1.0"/>
+      </material>
+    </visual>
+    <visual>
+      <origin xyz="0.0 0.0 -0.0985"/>
+      <geometry>
+        <box size="0.05 0.05 0.147"/>
+      </geometry>
+      <material name="Appearance4"/>
+    </visual>
+
+    <collision>
+      <origin rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.0 0.0 -0.0985"/>
+      <geometry>
+        <box size="0.05 0.05 0.147"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="LARM_WRIST_Y" type="revolute">
+    <origin xyz="0.0 0.0 -0.247"/>
+    <axis xyz="0 0 1"/>
+    <parent link="LARM_ELBOW"/>
+    <child link="LARM_WRIST_Y"/>
+    <limit lower="-1.57" upper="1.57" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="LARM_WRIST_Y">
+    <inertial>
+      <mass value="0.4"/>
+      <origin xyz="0.0 0.0 0.1"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0.0 0.0 0.05"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0.0 0.0 0.05"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="LARM_WRIST_P" type="revolute">
+    <axis xyz="0 1 0"/>
+    <parent link="LARM_WRIST_Y"/>
+    <child link="LARM_WRIST_P"/>
+    <limit lower="-1.57" upper="1.57" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="LARM_WRIST_P">
+    <inertial>
+      <mass value="0.4"/>
+      <origin xyz="-0.1 0.0 0.0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="LARM_WRIST_R" type="revolute">
+    <axis xyz="1 0 0"/>
+    <parent link="LARM_WRIST_P"/>
+    <child link="LARM_WRIST_R"/>
+    <limit lower="-1.57" upper="1.57" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="LARM_WRIST_R">
+    <inertial>
+      <mass value="0.4"/>
+      <origin xyz="0.0 0.0 -0.1"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin rpy="1.57 0.0 1.57"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+      <material name="Appearance7">
+        <color rgba="0.7 0.85 0.7 1.0"/>
+      </material>
+    </visual>
+    <visual>
+      <origin xyz="0.0 0.0 -0.1125"/>
+      <geometry>
+        <box size="0.05 0.05 0.175"/>
+      </geometry>
+      <material name="Appearance7"/>
+    </visual>
+
+    <collision>
+      <origin rpy="1.57 0.0 1.57"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.0 0.0 -0.1125"/>
+      <geometry>
+        <box size="0.05 0.05 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- body -->
+  <joint name="WAIST_P" type="revolute">
+    <origin xyz="0.0 0.0 0.176"/>
+    <axis xyz="0 1 0"/>
+    <parent link="WAIST"/>
+    <child link="WAIST_P"/>
+    <limit lower="-1.57" upper="1.57" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="WAIST_P">
+    <inertial>
+      <mass value="6.0"/>
+      <origin xyz="0.0 0.0 -0.1"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <!-- NOTE: the cylinder direction in URDF is Z -->
+      <origin rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+      <material name="Appearance1">
+        <color rgba="0.6 1.0 0.6 1.0"/>
+      </material>
+    </visual>
+
+    <collision>
+      <origin rpy="1.57 0.0 0.0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="WAIST_R" type="revolute">
+    <axis xyz="1 0 0"/>
+    <parent link="WAIST_P"/>
+    <child link="WAIST_R"/>
+    <limit lower="-1.0471975512" upper="1.0471975512" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="WAIST_R">
+    <inertial>
+      <mass value="30.0"/>
+      <origin xyz="0.11 0.0 0.25"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin rpy="0.0 1.57 0.0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+      <material name="Appearance2">
+        <color rgba="0.6 0.8 0.6 1.0"/>
+      </material>
+    </visual>
+    <visual>
+      <origin xyz="0.0 0.0 0.1625"/>
+      <geometry>
+        <box size="0.05 0.05 0.275"/>
+      </geometry>
+      <material name="Appearance2"/>
+    </visual>
+
+    <collision>
+      <origin rpy="0.0 1.57 0.0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.05"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.0 0.0 0.1625"/>
+      <geometry>
+        <box size="0.05 0.05 0.275"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="CHEST" type="revolute">
+    <origin xyz="0.0 0.0 0.35"/>
+    <axis xyz="0 0 1"/>
+    <parent link="WAIST_R"/>
+    <child link="CHEST"/>
+    <limit lower="-1.57" upper="1.57" effort="500.0" velocity="10.0"/>
+  </joint>
+
+  <link name="CHEST">
+    <inertial>
+      <mass value="13.0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <geometry>
+        <cylinder radius="0.025" length="0.1"/>
+      </geometry>
+      <material name="Appearance3">
+        <color rgba="0.8 0.8 0.8 1.0"/>
+      </material>
+    </visual>
+    <visual>
+      <geometry>
+        <box size="0.15 0.27 0.05"/>
+      </geometry>
+      <material name="Appearance3"/>
+    </visual>
+    <visual>
+      <origin xyz="0.0 0.0 0.065"/>
+      <geometry>
+        <box size="0.05 0.05 0.03"/>
+      </geometry>
+      <material name="Appearance3"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.015 0.0 0.16"/>
+      <geometry>
+        <box size="0.31 0.16 0.16"/>
+      </geometry>
+      <material>
+        <color rgba="0.5 0.8 0.5 1.0"/>
+      </material>
+    </visual>
+
+    <collision>
+      <geometry>
+        <cylinder radius="0.025" length="0.1"/>
+      </geometry>
+    </collision>
+    <collision>
+      <geometry>
+        <box size="0.15 0.27 0.05"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.0 0.0 0.065"/>
+      <geometry>
+        <box size="0.05 0.05 0.03"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.015 0.0 0.16"/>
+      <geometry>
+        <box size="0.31 0.16 0.16"/>
+      </geometry>
+    </collision>
+
+    <!-- cameras has not been described yet -->
+  </link>
+</robot>
+
+[simple_dual_manipulator]
+
+### 入力（.body形式）:
+format: ChoreonoidBody
+formatVersion: 1.0
+angleUnit: degree
+name: simpleManipulator
+links:
+  -
+    name: ROOT
+    translation: [ 0, 0, 0.05 ]
+    jointType: fixed
+    centerOfMass: [ 0, 0, 0 ]
+    mass: 1.0
+    inertia: [
+      0.1, 0, 0, 
+      0, 0.1, 0, 
+      0, 0, 0.5 ]
+    elements:
+      Shape:
+        geometry:
+          type: Box
+          size: [ 1.0, 0.5, 0.1 ]
+        appearance: &BodyAppearance
+          material:
+            diffuseColor: [ 0.3, 0.3, 0.3 ]
+            specularColor: [ 0.5, 0.5, 0.5 ]
+            shininess: 0.5 
+  -
+    name: ARM0_Y
+    parent: ROOT
+    translation: [ -0.25, 0.0, 0.15 ]
+    jointType: revolute
+    jointAxis: -Z
+    jointRange: unlimited
+    maxJointVelocity: 90
+    jointId: 0
+    centerOfMass: [ 0, 0, 0.1 ]
+    mass: 0.5
+    inertia: [
+      0.1, 0, 0,
+      0, 0.1, 0,
+      0, 0, 0.1 ]
+    elements: &YawElements
+      Shape:
+        geometry:
+          type: Box
+          size: [ 0.1, 0.1, 0.2 ]
+        appearance: *BodyAppearance
+  -
+    name: ARM0_P0
+    parent: ARM0_Y
+    translation: [ 0.0, 0.0, 0.15 ]
+    jointType: revolute
+    jointAxis: -X
+    jointRange: unlimited
+    maxJointVelocity: 90
+    jointId: 1
+    elements: &PitchElements
+      type: Transform
+      translation: [ 0, 0, 0.2 ]
+      rotation: [ 0, 0, 1, 0 ]
+      elements:
+        RigidBody:
+          centerOfMass: [ 0, 0, 0.0 ]
+          mass: 1.0
+          inertia: [
+            0.1, 0, 0,
+            0, 0.1, 0,
+            0, 0, 0.1 ]
+          elements:
+            Shape:
+              geometry:
+                type: Box
+                size: [ 0.1, 0.1, 0.4 ]
+              appearance: *BodyAppearance
+  -
+    name: ARM0_P1
+    parent: ARM0_P0
+    translation: [ 0.0, 0.0, 0.45 ]
+    jointType: revolute
+    jointAxis: -X
+    jointRange: unlimited
+    maxJointVelocity: 90
+    jointId: 2
+    elements: *PitchElements
+  -
+    name: ARM0_E
+    parent: ARM0_P1
+    translation: [ 0.0, 0.0, 0.425 ]
+    jointType: fixed
+    elements: &EffectorElements
+      - 
+        type: RigidBody
+        centerOfMass: [ 0, 0, 0.0 ]
+        mass: 1.0
+        inertia: [
+          0.1, 0, 0,
+          0, 0.1, 0,
+          0, 0, 0.1 ]
+        elements:
+          Shape:
+            geometry:
+              type: Box
+              size: [ 0.2, 0.1, 0.05 ]
+            appearance: *BodyAppearance
+      -
+        type: Transform
+        translation: [ -0.075, 0, 0.075 ]
+        rotation: [ 0, 0, 1, 0 ]
+        elements: &FingerElements
+          RigidBody:
+            centerOfMass: [ 0, 0, 0.0 ]
+            mass: 1.0
+            inertia: [
+              0.1, 0, 0,
+              0, 0.1, 0,
+              0, 0, 0.1 ]
+            elements:
+              Shape:
+                geometry:
+                  type: Box
+                  size: [ 0.05, 0.1, 0.1 ]
+                appearance: *BodyAppearance
+      -
+        type: Transform
+        translation: [ 0.075, 0, 0.075 ]
+        rotation: [ 0, 0, 1, 0 ]
+        elements: *FingerElements       
+      -
+        type: Camera
+        name: Camera
+        translation: [ 0, 0, 0.025 ]
+        format: COLOR_DEPTH
+        fieldOfView: 65
+        nearClipDistance: 0.02
+        width: 320
+        height: 240
+        frameRate: 30
+        elements:
+          Shape:
+            rotation: [ 1, 0, 0, 90 ]
+            geometry:
+              type: Cylinder
+              radius: 0.02
+              height: 0.02
+            appearance:
+              material:
+                diffuseColor: [0.2, 0.2, 0.8]
+                specularColor: [0.6, 0.6, 1.0]
+                shininess: 0.6    
+  -
+    name: ARM1_Y
+    parent: ROOT
+    translation: [ 0.25, 0.0, 0.15 ]
+    jointType: revolute
+    jointAxis: -Z
+    jointRange: unlimited
+    maxJointVelocity: 90
+    jointId: 3
+    centerOfMass: [ 0, 0, 0.1 ]
+    mass: 0.5
+    inertia: [
+      0.1, 0, 0,
+      0, 0.1, 0,
+      0, 0, 0.1 ]
+    elements: *YawElements
+  -
+    name: ARM1_P0
+    parent: ARM1_Y
+    translation: [ 0.0, 0.0, 0.15 ]
+    jointType: revolute
+    jointAxis: -X
+    jointRange: unlimited
+    maxJointVelocity: 90
+    jointId: 4
+    elements: *PitchElements
+  -
+    name: ARM1_P1
+    parent: ARM1_P0
+    translation: [ 0.0, 0.0, 0.45 ]
+    jointType: revolute
+    jointAxis: -X
+    jointRange: unlimited
+    maxJointVelocity: 90
+    jointId: 5
+    elements: *PitchElements
+  -
+    name: ARM1_E
+    parent: ARM1_P1
+    translation: [ 0.0, 0.0, 0.425 ]
+    jointType: fixed
+    elements: *EffectorElements
+
+### 出力（URDF形式）:
+<?xml version="1.0"?>
+<robot name="simpleManipulator">
+
+  <!-- Link: ROOT -->
+  <link name="ROOT">
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.5"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.05"/>
+      <geometry>
+        <box size="1.0 0.5 0.1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.05"/>
+      <geometry>
+        <box size="1.0 0.5 0.1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="ARM0_Y_joint" type="continuous">
+    <parent link="ROOT"/>
+    <child link="ARM0_Y"/>
+    <origin xyz="-0.25 0.0 0.15"/>
+    <axis xyz="0 0 -1"/>
+    <limit effort="1.0" velocity="1.5708"/>
+  </joint>
+
+  <link name="ARM0_Y">
+    <inertial>
+      <origin xyz="0 0 0.1"/>
+      <mass value="0.5"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.05"/>
+      <geometry>
+        <box size="0.1 0.1 0.2"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.05"/>
+      <geometry>
+        <box size="0.1 0.1 0.2"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="ARM0_P0_joint" type="revolute">
+    <parent link="ARM0_Y"/>
+    <child link="ARM0_P0"/>
+    <origin xyz="0.0 0.0 0.2"/>
+    <axis xyz="-1 0 0"/>
+    <limit lower="-1.57" upper="1.57" effort="1.0" velocity="1.5708"/>
+  </joint>
+
+  <link name="ARM0_P0">
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.2"/>
+      <geometry>
+        <box size="0.1 0.1 0.4"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.2"/>
+      <geometry>
+        <box size="0.1 0.1 0.4"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="ARM0_P1_joint" type="revolute">
+    <parent link="ARM0_P0"/>
+    <child link="ARM0_P1"/>
+    <origin xyz="0 0 0.45"/>
+    <axis xyz="-1 0 0"/>
+    <limit lower="-1.57" upper="1.57" effort="1.0" velocity="1.5708"/>
+  </joint>
+
+  <link name="ARM0_P1">
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.2"/>
+      <geometry>
+        <box size="0.1 0.1 0.4"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.2"/>
+      <geometry>
+        <box size="0.1 0.1 0.4"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="ARM0_E_joint" type="fixed">
+    <parent link="ARM0_P1"/>
+    <child link="ARM0_E"/>
+    <origin xyz="0 0 0.425"/>
+  </joint>
+
+  <link name="ARM0_E">
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="0.2 0.1 0.05"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.2 0.1 0.05"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="-0.075 0 0.075"/>
+      <geometry>
+        <box size="0.05 0.1 0.1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.075 0 0.075"/>
+      <geometry>
+        <box size="0.05 0.1 0.1"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0.075 0 0.075"/>
+      <geometry>
+        <box size="0.05 0.1 0.1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.075 0 0.075"/>
+      <geometry>
+        <box size="0.05 0.1 0.1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="ARM1_Y_joint" type="continuous">
+    <parent link="ROOT"/>
+    <child link="ARM1_Y"/>
+    <origin xyz="0.25 0.0 0.15"/>
+    <axis xyz="0 0 -1"/>
+    <limit effort="1.0" velocity="1.5708"/>
+  </joint>
+
+  <link name="ARM1_Y">
+    <inertial>
+      <origin xyz="0 0 0.1"/>
+      <mass value="0.5"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.05"/>
+      <geometry>
+        <box size="0.1 0.1 0.2"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.05"/>
+      <geometry>
+        <box size="0.1 0.1 0.2"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="ARM1_P0_joint" type="revolute">
+    <parent link="ARM1_Y"/>
+    <child link="ARM1_P0"/>
+    <origin xyz="0.0 0.0 0.2"/>
+    <axis xyz="-1 0 0"/>
+    <limit lower="-1.57" upper="1.57" effort="1.0" velocity="1.5708"/>
+  </joint>
+
+  <link name="ARM1_P0">
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.2"/>
+      <geometry>
+        <box size="0.1 0.1 0.4"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.2"/>
+      <geometry>
+        <box size="0.1 0.1 0.4"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="ARM1_P1_joint" type="revolute">
+    <parent link="ARM1_P0"/>
+    <child link="ARM1_P1"/>
+    <origin xyz="0 0 0.45"/>
+    <axis xyz="-1 0 0"/>
+    <limit lower="-1.57" upper="1.57" effort="1.0" velocity="1.5708"/>
+  </joint>
+
+  <link name="ARM1_P1">
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.2"/>
+      <geometry>
+        <box size="0.1 0.1 0.4"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.2"/>
+      <geometry>
+        <box size="0.1 0.1 0.4"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="ARM1_E_joint" type="fixed">
+    <parent link="ARM1_P1"/>
+    <child link="ARM1_E"/>
+    <origin xyz="0 0 0.425"/>
+  </joint>
+
+  <link name="ARM1_E">
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="0.2 0.1 0.05"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.2 0.1 0.05"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="-0.075 0 0.075"/>
+      <geometry>
+        <box size="0.05 0.1 0.1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.075 0 0.075"/>
+      <geometry>
+        <box size="0.05 0.1 0.1"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0.075 0 0.075"/>
+      <geometry>
+        <box size="0.05 0.1 0.1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.075 0 0.075"/>
+      <geometry>
+        <box size="0.05 0.1 0.1"/>
+      </geometry>
+    </collision>
+  </link>
+
+</robot>
