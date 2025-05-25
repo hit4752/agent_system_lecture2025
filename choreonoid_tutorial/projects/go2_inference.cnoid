@@ -157,9 +157,9 @@ views:
         -
           camera: [ System, Perspective ]
           isCurrent: true
-          eye: [ 1.41462, 3.04223, 1.21785 ]
-          direction: [ -0.407054, -0.894281, -0.185925 ]
-          up: [ -0.0770243, -0.16922, 0.982564 ]
+          eye: [ 0.7, 3, 0.7 ]
+          direction: [ 0, -0.995037, -0.0995037 ]
+          up: [ 0, -0.0995037, 0.995037 ]
         -
           camera: [ System, Orthographic ]
           orthoHeight: 20
