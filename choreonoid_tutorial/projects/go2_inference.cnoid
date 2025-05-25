@@ -24,7 +24,7 @@ items:
           data:
             file: "${HOME}/genesis_ws/Genesis/genesis/assets/urdf/go2/urdf/go2.urdf"
             format: URDF
-            rootPosition: [ 0, 0, 0.35 ]
+            rootPosition: [ 0, 0, 0.42 ]
             rootAttitude: [
               1, 0, 0,
               0, 1, 0,
@@ -32,7 +32,7 @@ items:
             jointDisplacements: [
               0, 45, -85, 0, 45, -85, 0, 45, -85, 0,
               45, -85 ]
-            initialRootPosition: [ 0, 0, 0.35 ]
+            initialRootPosition: [ 0, 0, 0.42 ]
             initialRootAttitude: [
               1, 0, 0,
               0, 1, 0,
