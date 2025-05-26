@@ -2136,6 +2136,12 @@ links:
   </joint>
 
   <link name="ARM0_P0">
+    <!-- elements in the RigidBody tag have the same origin offset set by Transform tag -->
+    <inertial>
+      <origin xyz="0 0 0.2"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
     <visual>
       <origin xyz="0.0 0.0 0.2"/>
       <geometry>
@@ -2148,11 +2154,6 @@ links:
         <box size="0.1 0.1 0.4"/>
       </geometry>
     </collision>
-    <inertial>
-      <origin xyz="0 0 0.2"/>
-      <mass value="1.0"/>
-      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
-    </inertial>
   </link>
 
   <!-- unlimited range joints must have "continuous" type -->
@@ -2165,6 +2166,11 @@ links:
   </joint>
 
   <link name="ARM0_P1">
+    <inertial>
+      <origin xyz="0 0 0.2"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
     <visual>
       <origin xyz="0.0 0.0 0.2"/>
       <geometry>
@@ -2177,11 +2183,6 @@ links:
         <box size="0.1 0.1 0.4"/>
       </geometry>
     </collision>
-    <inertial>
-      <origin xyz="0 0 0.2"/>
-      <mass value="1.0"/>
-      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
-    </inertial>
   </link>
 
   <joint name="ARM0_E_joint" type="fixed">
@@ -2192,57 +2193,60 @@ links:
 
   <link name="ARM0_E">
     <!-- ARM0_E element1 -->
-    <visual>
-      <geometry>
-        <box size="0.2 0.1 0.05"/>
-      </geometry>
-    </visual>
-    <collision>
-      <geometry>
-        <box size="0.2 0.1 0.05"/>
-      </geometry>
-    </collision>
+    <!-- elements in the RigidBody tag have the same origin offset set by Transform tag -->
     <inertial>
       <origin xyz="0 0 0"/>
       <mass value="1.0"/>
       <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
     </inertial>
-    <!-- ARM0_E element2 -->
     <visual>
-      <origin xyz="-0.075 0 0.075"/>
       <geometry>
-        <box size="0.05 0.1 0.1"/>
+        <box size="0.2 0.1 0.05"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="-0.075 0 0.075"/>
       <geometry>
-        <box size="0.05 0.1 0.1"/>
+        <box size="0.2 0.1 0.05"/>
       </geometry>
     </collision>
+    <!-- ARM0_E element2 -->
+    <!-- elements in the RigidBody tag have the same origin offset set by Transform tag -->
     <inertial>
       <origin xyz="-0.075 0 0.075"/>
       <mass value="1.0"/>
       <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
     </inertial>
-    <!-- ARM0_E element3 -->
     <visual>
-      <origin xyz="0.075 0 0.075"/>
+      <origin xyz="-0.075 0 0.075"/>
       <geometry>
         <box size="0.05 0.1 0.1"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0.075 0 0.075"/>
+      <origin xyz="-0.075 0 0.075"/>
       <geometry>
         <box size="0.05 0.1 0.1"/>
       </geometry>
     </collision>
+    <!-- ARM0_E element3 -->
+    <!-- elements in the RigidBody tag have the same origin offset set by Transform tag -->
     <inertial>
       <origin xyz="0.075 0 0.75"/>
       <mass value="1.0"/>
       <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
     </inertial>
+    <visual>
+      <origin xyz="0.075 0 0.075"/>
+      <geometry>
+        <box size="0.05 0.1 0.1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.075 0 0.075"/>
+      <geometry>
+        <box size="0.05 0.1 0.1"/>
+      </geometry>
+    </collision>
   </link>
 
   <joint name="ARM1_Y_joint" type="continuous">
@@ -2395,7 +2399,7 @@ links:
 format: ChoreonoidBody
 formatVersion: 1.0
 angleUnit: degree
-name: SimpleTank
+name: SpiderMan
 links:
   -
     name: BODY1
@@ -2806,11 +2810,17 @@ links:
 
 ### 出力（URDF形式）:
 <?xml version="1.0"?>
-<robot name="SimpleTank">
+<robot name="SpiderMan">
 
   <!-- BODY1: Root Link -->
   <link name="BODY1">
     <!-- Body1 Part1 -->
+    <!-- elements in the RigidBody tag have the same origin offset set by Transform tag -->
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.1" ixy="0.0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
     <visual>
       <origin xyz="0 0 0"/>
       <geometry>
@@ -2820,20 +2830,19 @@ links:
         <color rgba="0.6 0.0 0.0 1.0"/>
       </material>
     </visual>
-    <!-- collision has always the same origin and geometry with the visual -->
     <collision>
-      <origin xyz="0 0 0."/>
+      <origin xyz="0 0 0"/>
       <geometry>
         <box size="0.20 0.40 0.15"/>
       </geometry>
     </collision>
-    <!-- collision has always the same origin with the visual -->
+    <!-- Body1 Part2 -->
+    <!-- elements in the RigidBody tag have the same origin offset set by Transform tag -->
     <inertial>
       <mass value="1.0"/>
-      <origin xyz="0 0 0"/>
+      <origin xyz="0 0 0.125"/>
       <inertia ixx="0.1" ixy="0.0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
     </inertial>
-    <!-- Body1 Part2 -->
     <visual>
       <origin xyz="0 0 0.125"/>
       <geometry>
@@ -2847,12 +2856,13 @@ links:
         <box size="0.20 0.30 0.10"/>
       </geometry>
     </collision>
+    <!-- Body1 Part3 -->
+    <!-- elements in the RigidBody tag have the same origin offset set by Transform tag -->
     <inertial>
       <mass value="1.0"/>
-      <origin xyz="0 0 0.125"/>
-      <inertia ixx="0.1" ixy="0.0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+      <origin xyz="0 0 0.175"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
     </inertial>
-    <!-- Body1 Part3 -->
     <!-- cyliner's default orientations are different between body and urdf -->
     <visual>
       <origin xyz="0 0 0.175" rpy="1.571 0 0"/>
@@ -2867,16 +2877,17 @@ links:
         <cylinder radius="0.10" length="0.30"/>
       </geometry>
     </collision>
-    <inertial>
-      <mass value="1.0"/>
-      <origin xyz="0 0 0.175"/>
-      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
-    </inertial>
   </link>
 
   <!-- BODY2 -->
   <link name="BODY2">
     <!-- Body2 Part1 -->
+    <!-- elements in the RigidBody tag have the same origin offset set by Transform tag -->
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0.175 0.12"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
     <visual>
       <origin xyz="0.0 0.175 0.12"/>
       <geometry>
@@ -2892,12 +2903,13 @@ links:
         <box size="0.12 0.05 0.36"/>
       </geometry>
     </collision>
-    <inertial>
-      <mass value="1.0"/>
-      <origin xyz="0 0.175 0.12"/>
-      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
-    </inertial>
     <!-- Body2 Part2 -->
+    <!-- elements in the RigidBody tag have the same origin offset set by Transform tag -->
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0.175 0.12"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
     <visual>
       <origin xyz="0 -0.175 0.12"/>
       <geometry>
@@ -2911,12 +2923,13 @@ links:
         <box size="0.12 0.05 0.36"/>
       </geometry>
     </collision>
-    <inertial>
-      <mass value="1.0"/>
-      <origin xyz="0 0.175 0.12"/>
-      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
-    </inertial>
     <!-- Body2 Part3 -->
+    <!-- elements in the RigidBody tag have the same origin offset set by Transform tag -->
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0.175 0.12"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
     <visual>
       <origin xyz="0 0 0.12"/>
       <geometry>
@@ -2930,11 +2943,6 @@ links:
         <box size="0.12 0.30 0.03"/>
       </geometry>
     </collision>
-    <inertial>
-      <mass value="1.0"/>
-      <origin xyz="0 0.175 0.12"/>
-      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
-    </inertial>
   </link>
   <!-- all the joints must have effort values -->
   <joint name="joint_BODY1_BODY2" type="revolute">
@@ -2948,8 +2956,12 @@ links:
   <!-- BODY3 -->
   <link name="BODY3">
     <!-- Body3 Part1 -->
-    <!-- origin [0 0 0.075] = [0 0 0] + [0 0 0.075] -->
-    <!-- cyliner's default orientations are different between body and urdf -->
+    <!-- elements in the RigidBody tag have the same origin offset set by Transform tag -->
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0.15"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="1.571 0 0"/>
       <geometry>
@@ -2963,12 +2975,13 @@ links:
         <cylinder radius="0.10" length="0.30"/>
       </geometry>
     </collision>
-    <inertial>
-      <mass value="1.0"/>
-      <origin xyz="0 0 0.15"/>
-      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
-    </inertial>
     <!-- Body3 Part2 -->
+    <!-- elements in the RigidBody tag have the same origin offset set by Transform tag -->
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0.15"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
     <visual>
       <origin xyz="0 0 0.05"/>
       <geometry>
@@ -2982,12 +2995,13 @@ links:
         <box size="0.20 0.30 0.10"/>
       </geometry>
     </collision>
-    <inertial>
-      <mass value="1.0"/>
-      <origin xyz="0 0 0.15"/>
-      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
-    </inertial>
     <!-- Body3 Part3 -->
+    <!-- elements in the RigidBody tag have the same origin offset set by Transform tag -->
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0.15"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
     <visual>
       <origin xyz="0 0 0.2"/>
       <geometry>
@@ -3001,12 +3015,13 @@ links:
         <box size="0.20 0.40 0.20"/>
       </geometry>
     </collision>
-    <inertial>
-      <mass value="1.0"/>
-      <origin xyz="0 0 0.15"/>
-      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
-    </inertial>
     <!-- Body3 Part4 -->
+    <!-- elements in the RigidBody tag have the same origin offset set by Transform tag -->
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0.15"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
     <visual>
       <origin xyz="0.125 0 0.15"/>
       <geometry>
@@ -3020,11 +3035,6 @@ links:
         <box size="0.05 0.30 0.30"/>
       </geometry>
     </collision>
-    <inertial>
-      <mass value="1.0"/>
-      <origin xyz="0 0 0.15"/>
-      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
-    </inertial>
   </link>
   <joint name="joint_BODY2_BODY3" type="revolute">
     <parent link="BODY2"/>
@@ -3037,6 +3047,12 @@ links:
   <!-- HEAD -->
   <link name="HEAD">
     <!-- Head Part1 -->
+    <!-- elements in the RigidBody tag have the same origin offset set by Transform tag -->
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
     <!-- comment out sphere -->
     <!-- <visual> -->
     <!--   <origin xyz="0 0 0.0"/> -->
@@ -3051,12 +3067,13 @@ links:
     <!--     <sphere radius="0.15"/> -->
     <!--   </geometry> -->
     <!-- </collision> -->
+    <!-- Head Part2 -->
+    <!-- elements in the RigidBody tag have the same origin offset set by Transform tag -->
     <inertial>
       <mass value="1.0"/>
-      <origin xyz="0 0 0"/>
+      <origin xyz="0 0 0.04"/>
       <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
     </inertial>
-    <!-- Head Part2 -->
     <!-- cyliner's default orientations are different between body and urdf -->
     <visual>
       <origin xyz="0 0 0.04" rpy="0 0 0"/>
@@ -3071,12 +3088,13 @@ links:
         <cylinder radius="0.15" length="0.08"/>
       </geometry>
     </collision>
+    <!-- Head Part3 -->
+    <!-- elements in the RigidBody tag have the same origin offset set by Transform tag -->
     <inertial>
       <mass value="1.0"/>
-      <origin xyz="0 0 0"/>
+      <origin xyz="0 0 0.08"/>
       <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
     </inertial>
-    <!-- Head Part3 -->
     <!-- comment out sphere -->
     <!-- <visual> -->
     <!--   <origin xyz="0 0 0.08"/> -->
@@ -3091,11 +3109,6 @@ links:
     <!--     <sphere radius="0.15"/> -->
     <!--   </geometry> -->
     <!-- </collision> -->
-    <inertial>
-      <mass value="1.0"/>
-      <origin xyz="0 0 0"/>
-      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
-    </inertial>
   </link>
   <joint name="joint_BODY3_HEAD" type="revolute">
     <parent link="BODY3"/>
@@ -3108,6 +3121,12 @@ links:
   <!-- L_ARM -->
   <link name="L_ARM">
     <!-- L_Arm Part1 -->
+    <!-- elements in the RigidBody tag have the same origin offset set by Transform tag -->
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
     <!-- <visual> -->
     <!--   <origin xyz="0 0 0"/> -->
     <!--   <geometry> -->
@@ -3121,12 +3140,13 @@ links:
     <!--     <sphere radius="0.10"/> -->
     <!--   </geometry> -->
     <!-- </collision> -->
+    <!-- L_Arm Part2 -->
+    <!-- elements in the RigidBody tag have the same origin offset set by Transform tag -->
     <inertial>
       <mass value="1.0"/>
-      <origin xyz="0 0 0"/>
+      <origin xyz="0 0.03 -0.225"/>
       <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
     </inertial>
-    <!-- L_Arm Part2 -->
     <visual>
       <origin xyz="0 0.03 -0.225"/>
       <geometry>
@@ -3140,11 +3160,6 @@ links:
         <box size="0.12 0.08 0.45"/>
       </geometry>
     </collision>
-    <inertial>
-      <mass value="1.0"/>
-      <origin xyz="0 0 0"/>
-      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
-    </inertial>
   </link>
   <joint name="joint_BODY3_L_ARM" type="revolute">
     <parent link="BODY3"/>
@@ -3156,6 +3171,13 @@ links:
 
   <!-- R_ARM -->
   <link name="R_ARM">
+    <!-- R_Arm Part1 -->
+    <!-- elements in the RigidBody tag have the same origin offset set by Transform tag -->
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
     <!-- <visual> -->
     <!--   <origin xyz="0 0 0"/> -->
     <!--   <geometry> -->
@@ -3169,11 +3191,14 @@ links:
     <!--     <sphere radius="0.10"/> -->
     <!--   </geometry> -->
     <!-- </collision> -->
+    <!-- R_Arm Part2 -->
+    <!-- elements in the RigidBody tag have the same origin offset set by Transform tag -->
     <inertial>
       <mass value="1.0"/>
-      <origin xyz="0 0 0"/>
+      <origin xyz="0 -0.03 -0.225"/>
       <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
-    </inertial>    <visual>
+    </inertial>
+    <visual>
       <origin xyz="0 -0.03 -0.225"/>
       <geometry>
         <box size="0.12 0.08 0.45"/>
@@ -3186,11 +3211,6 @@ links:
         <box size="0.12 0.08 0.45"/>
       </geometry>
     </collision>
-    <inertial>
-      <mass value="1.0"/>
-      <origin xyz="0 0 0"/>
-      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
-    </inertial>
   </link>
   <joint name="joint_BODY3_R_ARM" type="revolute">
     <parent link="BODY3"/>
