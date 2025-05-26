@@ -2079,24 +2079,25 @@ links:
   <!-- Link: ROOT -->
   <link name="ROOT">
     <inertial>
-      <origin xyz="0 0 0"/>
+      <origin xyz="0.0 0.0 0.0"/>
       <mass value="1.0"/>
       <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.5"/>
     </inertial>
     <visual>
-      <origin xyz="0.0 0.0 0.05"/>
+      <origin xyz="0.0 0.0 0.0"/>
       <geometry>
         <box size="1.0 0.5 0.1"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0.0 0.0 0.05"/>
+      <origin xyz="0.0 0.0 0.0"/>
       <geometry>
         <box size="1.0 0.5 0.1"/>
       </geometry>
     </collision>
   </link>
 
+  <!-- unlimited range joints must have "continuous" type -->
   <joint name="ARM0_Y_joint" type="continuous">
     <parent link="ROOT"/>
     <child link="ARM0_Y"/>
@@ -2112,33 +2113,29 @@ links:
       <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
     </inertial>
     <visual>
-      <origin xyz="0.0 0.0 0.05"/>
+      <origin xyz="0.0 0.0 0.0"/>
       <geometry>
         <box size="0.1 0.1 0.2"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0.0 0.0 0.05"/>
+      <origin xyz="0.0 0.0 0.0"/>
       <geometry>
         <box size="0.1 0.1 0.2"/>
       </geometry>
     </collision>
   </link>
 
-  <joint name="ARM0_P0_joint" type="revolute">
+  <!-- unlimited range joints must have "continuous" type -->
+  <joint name="ARM0_P0_joint" type="continuous">
     <parent link="ARM0_Y"/>
     <child link="ARM0_P0"/>
-    <origin xyz="0.0 0.0 0.2"/>
+    <origin xyz="0.0 0.0 0.15"/>
     <axis xyz="-1 0 0"/>
-    <limit lower="-1.57" upper="1.57" effort="1.0" velocity="1.5708"/>
+    <limit effort="1.0" velocity="1.5708"/>
   </joint>
 
   <link name="ARM0_P0">
-    <inertial>
-      <origin xyz="0 0 0"/>
-      <mass value="1.0"/>
-      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
-    </inertial>
     <visual>
       <origin xyz="0.0 0.0 0.2"/>
       <geometry>
@@ -2151,22 +2148,23 @@ links:
         <box size="0.1 0.1 0.4"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 0.2"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
   </link>
 
-  <joint name="ARM0_P1_joint" type="revolute">
+  <!-- unlimited range joints must have "continuous" type -->
+  <joint name="ARM0_P1_joint" type="continuous">
     <parent link="ARM0_P0"/>
     <child link="ARM0_P1"/>
     <origin xyz="0 0 0.45"/>
     <axis xyz="-1 0 0"/>
-    <limit lower="-1.57" upper="1.57" effort="1.0" velocity="1.5708"/>
+    <limit effort="1.0" velocity="1.5708"/>
   </joint>
 
   <link name="ARM0_P1">
-    <inertial>
-      <origin xyz="0 0 0"/>
-      <mass value="1.0"/>
-      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
-    </inertial>
     <visual>
       <origin xyz="0.0 0.0 0.2"/>
       <geometry>
@@ -2179,6 +2177,11 @@ links:
         <box size="0.1 0.1 0.4"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 0.2"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
   </link>
 
   <joint name="ARM0_E_joint" type="fixed">
@@ -2188,21 +2191,23 @@ links:
   </joint>
 
   <link name="ARM0_E">
+    <!-- ARM0_E element1 -->
+    <visual>
+      <geometry>
+        <box size="0.2 0.1 0.05"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.2 0.1 0.05"/>
+      </geometry>
+    </collision>
     <inertial>
       <origin xyz="0 0 0"/>
       <mass value="1.0"/>
       <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
     </inertial>
-    <visual>
-      <geometry>
-        <box size="0.2 0.1 0.05"/>
-      </geometry>
-    </visual>
-    <collision>
-      <geometry>
-        <box size="0.2 0.1 0.05"/>
-      </geometry>
-    </collision>
+    <!-- ARM0_E element2 -->
     <visual>
       <origin xyz="-0.075 0 0.075"/>
       <geometry>
@@ -2215,6 +2220,12 @@ links:
         <box size="0.05 0.1 0.1"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="-0.075 0 0.075"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <!-- ARM0_E element3 -->
     <visual>
       <origin xyz="0.075 0 0.075"/>
       <geometry>
@@ -2227,6 +2238,11 @@ links:
         <box size="0.05 0.1 0.1"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0.075 0 0.75"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
   </link>
 
   <joint name="ARM1_Y_joint" type="continuous">
@@ -2244,33 +2260,28 @@ links:
       <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
     </inertial>
     <visual>
-      <origin xyz="0.0 0.0 0.05"/>
+      <origin xyz="0.0 0.0 0.0"/>
       <geometry>
         <box size="0.1 0.1 0.2"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0.0 0.0 0.05"/>
+      <origin xyz="0.0 0.0 0.0"/>
       <geometry>
         <box size="0.1 0.1 0.2"/>
       </geometry>
     </collision>
   </link>
 
-  <joint name="ARM1_P0_joint" type="revolute">
+  <joint name="ARM1_P0_joint" type="continuous">
     <parent link="ARM1_Y"/>
     <child link="ARM1_P0"/>
-    <origin xyz="0.0 0.0 0.2"/>
+    <origin xyz="0.0 0.0 0.15"/>
     <axis xyz="-1 0 0"/>
     <limit lower="-1.57" upper="1.57" effort="1.0" velocity="1.5708"/>
   </joint>
 
   <link name="ARM1_P0">
-    <inertial>
-      <origin xyz="0 0 0"/>
-      <mass value="1.0"/>
-      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
-    </inertial>
     <visual>
       <origin xyz="0.0 0.0 0.2"/>
       <geometry>
@@ -2283,9 +2294,14 @@ links:
         <box size="0.1 0.1 0.4"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 0.2"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
   </link>
 
-  <joint name="ARM1_P1_joint" type="revolute">
+  <joint name="ARM1_P1_joint" type="continuous">
     <parent link="ARM1_P0"/>
     <child link="ARM1_P1"/>
     <origin xyz="0 0 0.45"/>
@@ -2294,11 +2310,6 @@ links:
   </joint>
 
   <link name="ARM1_P1">
-    <inertial>
-      <origin xyz="0 0 0"/>
-      <mass value="1.0"/>
-      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
-    </inertial>
     <visual>
       <origin xyz="0.0 0.0 0.2"/>
       <geometry>
@@ -2311,6 +2322,11 @@ links:
         <box size="0.1 0.1 0.4"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 0.2"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
   </link>
 
   <joint name="ARM1_E_joint" type="fixed">
@@ -2320,22 +2336,22 @@ links:
   </joint>
 
   <link name="ARM1_E">
+    <visual>
+      <geometry>
+        <box size="0.2 0.1 0.05"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.2 0.1 0.05"/>
+      </geometry>
+    </collision>
     <inertial>
       <origin xyz="0 0 0"/>
       <mass value="1.0"/>
       <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
     </inertial>
     <visual>
-      <geometry>
-        <box size="0.2 0.1 0.05"/>
-      </geometry>
-    </visual>
-    <collision>
-      <geometry>
-        <box size="0.2 0.1 0.05"/>
-      </geometry>
-    </collision>
-    <visual>
       <origin xyz="-0.075 0 0.075"/>
       <geometry>
         <box size="0.05 0.1 0.1"/>
@@ -2347,6 +2363,11 @@ links:
         <box size="0.05 0.1 0.1"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
     <visual>
       <origin xyz="0.075 0 0.075"/>
       <geometry>
@@ -2359,6 +2380,824 @@ links:
         <box size="0.05 0.1 0.1"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
   </link>
+
+</robot>
+
+[SpiderMan]
+
+### 入力（.body形式）:
+format: ChoreonoidBody
+formatVersion: 1.0
+angleUnit: degree
+name: SimpleTank
+links:
+  -
+    name: BODY1
+    translation: [ 0, 0, 0.075 ]
+    jointType: fixed
+    elements:
+      -
+        # Body1 Part1
+        type: RigidBody
+        centerOfMass: [ 0, 0, 0 ]
+        mass: 1.0
+        inertia: [
+          0.1, 0, 0,
+          0, 0.1, 0,
+          0, 0, 0.1 ]
+        elements:
+          Shape:
+            geometry:
+              type: Box
+              size: [ 0.20, 0.40, 0.15 ]
+            appearance: &BodyAppearance1
+              material:
+                diffuseColor: [ 0.6, 0, 0 ]
+                specularColor: [ 0.8, 0.2, 0.2 ]
+                shininess: 0.6
+      -
+        # Body1 Part2
+        type: Transform
+        translation: [ 0, 0, 0.125 ]
+        elements:
+          RigidBody:
+            centerOfMass: [ 0, 0, 0 ]
+            mass: 1.0
+            inertia: [
+              0.1, 0, 0,
+              0, 0.1, 0,
+              0, 0, 0.1 ]
+            elements:
+              Shape:
+                geometry:
+                  type: Box
+                  size: [ 0.20, 0.30, 0.10 ]
+                appearance: *BodyAppearance1
+      -
+        # Motor
+        type: Transform
+        translation: [ 0, 0, 0.175 ]
+        elements:
+          RigidBody:
+            centerOfMass: [ 0, 0, 0 ]
+            mass: 1.0
+            inertia: [
+              0.1, 0, 0,
+              0, 0.1, 0,
+              0, 0, 0.1 ]
+            elements:
+              Shape:
+                geometry:
+                  type: Cylinder
+                  height: 0.30
+                  radius: 0.10
+                appearance: *BodyAppearance1
+  -
+    name: BODY2
+    parent: BODY1
+    translation: [ 0, 0, 0.175 ]
+    jointType: revolute
+    jointAxis: Y
+    jointRange: [ -20, 45 ]
+    maxJointVelocity: 90
+    jointId: 0
+    elements:
+      -
+        # Body2 Part1
+        type: Transform
+        translation: [ 0.0, 0.175, 0.12 ]
+        elements:
+          RigidBody:
+            centerOfMass: [ 0, 0, 0 ]
+            mass: 1.0
+            inertia: [
+              0.1, 0, 0,
+              0, 0.1, 0,
+              0, 0, 0.1 ]
+            elements:
+              Shape:
+                geometry:
+                  type: Box
+                  size: [ 0.12, 0.05, 0.36 ]
+                appearance: &BodyAppearance2
+                  material:
+                    diffuseColor: [ 0.15, 0.15, 0.15 ]
+                    specularColor: [ 0.2, 0.2, 0.2 ]
+                    shininess: 0.6
+      -
+        # Body2 Part2
+        type: Transform
+        translation: [ 0, -0.175, 0.12 ]
+        elements:
+          RigidBody:
+            centerOfMass: [ 0, 0, 0 ]
+            mass: 1.0
+            inertia: [
+              0.1, 0, 0,
+              0, 0.1, 0,
+              0, 0, 0.1 ]
+            elements:
+              Shape:
+                geometry:
+                  type: Box
+                  size: [ 0.12, 0.05, 0.36 ]
+                appearance: *BodyAppearance2
+      -
+        # Body2 Part3
+        type: Transform
+        translation: [ 0, 0, 0.12 ]
+        elements:
+          RigidBody:
+            centerOfMass: [ 0, 0, 0 ]
+            mass: 1.0
+            inertia: [
+              0.1, 0, 0,
+              0, 0.1, 0,
+              0, 0, 0.1 ]
+            elements:
+              Shape:
+                geometry:
+                  type: Box
+                  size: [ 0.12, 0.30, 0.03 ]
+                appearance: *BodyAppearance2
+  -
+    name: BODY3
+    parent: BODY2
+    translation: [ 0, 0, 0.24 ]
+    jointType: revolute
+    jointAxis: Y
+    jointRange: [ -20, 45 ]
+    maxJointVelocity: 90
+    jointId: 1
+    elements:
+      -
+        # Motor
+        type: RigidBody
+        centerOfMass: [ 0, 0, 0 ]
+        mass: 1.0
+        inertia: [
+          0.1, 0, 0,
+          0, 0.1, 0,
+          0, 0, 0.1 ]
+        elements:
+          Shape:
+            geometry:
+              type: Cylinder
+              height: 0.30
+              radius: 0.10
+            appearance: *BodyAppearance1
+      -
+        # Body3 Part1
+        type: Transform
+        translation: [ 0, 0, 0.05 ]
+        elements:
+          RigidBody:
+            centerOfMass: [ 0, 0, 0 ]
+            mass: 1.0
+            inertia: [
+              0.1, 0, 0,
+              0, 0.1, 0,
+              0, 0, 0.1 ]
+            elements:
+              Shape:
+                geometry:
+                  type: Box
+                  size: [ 0.20, 0.30, 0.10 ]
+                appearance: *BodyAppearance1
+      -
+        # Body3 Part2
+        type: Transform
+        translation: [ 0, 0, 0.2 ]
+        elements:
+          RigidBody:
+            centerOfMass: [ 0, 0, 0 ]
+            mass: 1.0
+            inertia: [
+              0.1, 0, 0,
+              0, 0.1, 0,
+              0, 0, 0.1 ]
+            elements:
+              Shape:
+                geometry:
+                  type: Box
+                  size: [ 0.20, 0.40, 0.20 ]
+                appearance: *BodyAppearance1
+      -
+        # Body3 Part3
+        type: Transform
+        translation: [ 0.125, 0, 0.15 ]
+        elements:
+          RigidBody:
+            centerOfMass: [ 0, 0, 0 ]
+            mass: 1.0
+            inertia: [
+              0.1, 0, 0,
+              0, 0.1, 0,
+              0, 0, 0.1 ]
+            elements:
+              Shape:
+                geometry:
+                  type: Box
+                  size: [ 0.05, 0.30, 0.30 ]
+                appearance: *BodyAppearance1
+  -
+    name: HEAD
+    parent: BODY3
+    translation: [ 0, 0, 0.42 ]
+    jointType: revolute
+    jointAxis: Y
+    jointRange: [ -80, 70 ]
+    maxJointVelocity: 90
+    jointId: 2
+    elements:
+      -
+        # Head Part1
+        type: RigidBody
+        centerOfMass: [ 0, 0, 0 ]
+        mass: 1.0
+        inertia: [
+          0.1, 0, 0,
+          0, 0.1, 0,
+          0, 0, 0.1 ]
+        elements:
+          Shape:
+            geometry:
+              type: Sphere
+              radius: 0.15
+            appearance: *BodyAppearance1
+      -
+        # Head Part2
+        type: Transform
+        translation: [ 0, 0, 0.04 ]
+        rotation: [ 1, 0, 0, 90 ]
+        elements:
+          RigidBody:
+            centerOfMass: [ 0, 0, 0 ]
+            mass: 1.0
+            inertia: [
+              0.1, 0, 0,
+              0, 0.1, 0,
+              0, 0, 0.1 ]
+            elements:
+              Shape:
+                geometry:
+                  type: Cylinder
+                  height: 0.08
+                  radius: 0.15
+                appearance: *BodyAppearance1
+      -
+        # Head part3
+        type: Transform
+        translation: [ 0, 0, 0.08 ]
+        elements:
+          RigidBody:
+            centerOfMass: [ 0, 0, 0 ]
+            mass: 1.0
+            inertia: [
+              0.1, 0, 0,
+              0, 0.1, 0,
+              0, 0, 0.1 ]
+            elements:
+              Shape:
+                geometry:
+                  type: Sphere
+                  radius: 0.15
+                appearance: *BodyAppearance1
+      -
+        # Eye1
+        type: Camera
+        name: Camera
+        translation: [ 0.145, 0.06, 0.055 ]
+        rotation: [[1,0,0,90], [0,1,0,-90]]
+        format: COLOR_DEPTH
+        fieldOfView: 65
+        nearClipDistance: 0.02
+        width: 320
+        height: 240
+        frameRate: 30
+        elements:
+          Shape:
+            rotation: [ 1, 0, 0, 90 ]
+            geometry:
+              type: Cylinder
+              radius: 0.02
+              height: 0.02
+            appearance:
+              material:
+                diffuseColor: [0.8, 0.8, 0.8]
+                specularColor: [0.6, 0.6, 1.0]
+                shininess: 0.6
+      -
+        # Eye2
+        type: Camera
+        name: Camera
+        translation: [ 0.145, -0.06, 0.055 ]
+        rotation: [[1,0,0,90], [0,1,0,-90]]
+        format: COLOR_DEPTH
+        fieldOfView: 65
+        nearClipDistance: 0.02
+        width: 320
+        height: 240
+        frameRate: 30
+        elements:
+          Shape:
+            rotation: [ 1, 0, 0, 90 ]
+            geometry:
+              type: Cylinder
+              radius: 0.02
+              height: 0.02
+            appearance:
+              material:
+                diffuseColor: [0.8, 0.8, 0.8]
+                specularColor: [0.6, 0.6, 1.0]
+                shininess: 0.6
+  -
+    name: L_ARM
+    parent: BODY3
+    translation: [ 0, 0.23, 0.20 ]
+    jointType: revolute
+    jointAxis: Y
+    jointRange: [ -180, 60 ]
+    maxJointVelocity: 90
+    jointId: 3
+    elements:
+      -
+        # L_Arm Part1
+        type: RigidBody
+        centerOfMass: [ 0, 0, 0 ]
+        mass: 1.0
+        inertia: [
+          0.1, 0, 0,
+          0, 0.1, 0,
+          0, 0, 0.1 ]
+        elements:
+          Shape:
+            geometry:
+              type: Sphere
+              radius: 0.10
+            appearance: *BodyAppearance1
+      -
+        # L_Arm Part2
+        type: Transform
+        translation: [ 0, 0.03, -0.225 ]
+        elements:
+          RigidBody:
+            centerOfMass: [ 0, 0, 0 ]
+            mass: 1.0
+            inertia: [
+              0.1, 0, 0,
+              0, 0.1, 0,
+              0, 0, 0.1 ]
+            elements:
+              Shape:
+                geometry:
+                  type: Box
+                  size: [ 0.12, 0.08, 0.45 ]
+                appearance: *BodyAppearance1
+  -
+    name: R_ARM
+    parent: BODY3
+    translation: [ 0, -0.23, 0.20 ]
+    jointType: revolute
+    jointAxis: Y
+    jointRange: [ -180, 60 ]
+    maxJointVelocity: 90
+    jointId: 4
+    elements:
+      -
+        # R_Arm Part1
+        type: RigidBody
+        centerOfMass: [ 0, 0, 0 ]
+        mass: 1.0
+        inertia: [
+          0.1, 0, 0,
+          0, 0.1, 0,
+          0, 0, 0.1 ]
+        elements:
+          Shape:
+            geometry:
+              type: Sphere
+              radius: 0.10
+            appearance: *BodyAppearance1
+      -
+        # R_Arm Part2
+        type: Transform
+        translation: [ 0, -0.03, -0.225 ]
+        elements:
+          RigidBody:
+            centerOfMass: [ 0, 0, 0 ]
+            mass: 1.0
+            inertia: [
+              0.1, 0, 0,
+              0, 0.1, 0,
+              0, 0, 0.1 ]
+            elements:
+              Shape:
+                geometry:
+                  type: Box
+                  size: [ 0.12, 0.08, 0.45 ]
+                appearance: *BodyAppearance1
+
+### 出力（URDF形式）:
+<?xml version="1.0"?>
+<robot name="SimpleTank">
+
+  <!-- BODY1: Root Link -->
+  <link name="BODY1">
+    <!-- Body1 Part1 -->
+    <visual>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <box size="0.20 0.40 0.15"/>
+      </geometry>
+      <material name="BodyAppearance1">
+        <color rgba="0.6 0.0 0.0 1.0"/>
+      </material>
+    </visual>
+    <!-- collision has always the same origin and geometry with the visual -->
+    <collision>
+      <origin xyz="0 0 0."/>
+      <geometry>
+        <box size="0.20 0.40 0.15"/>
+      </geometry>
+    </collision>
+    <!-- collision has always the same origin with the visual -->
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.1" ixy="0.0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <!-- Body1 Part2 -->
+    <visual>
+      <origin xyz="0 0 0.125"/>
+      <geometry>
+        <box size="0.20 0.30 0.10"/>
+      </geometry>
+      <material name="BodyAppearance1"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.125"/>
+      <geometry>
+        <box size="0.20 0.30 0.10"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0.125"/>
+      <inertia ixx="0.1" ixy="0.0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <!-- Body1 Part3 -->
+    <!-- cyliner's default orientations are different between body and urdf -->
+    <visual>
+      <origin xyz="0 0 0.175" rpy="1.571 0 0"/>
+      <geometry>
+        <cylinder radius="0.10" length="0.30"/>
+      </geometry>
+      <material name="BodyAppearance1"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.175" rpy="1.571 0 0"/>
+      <geometry>
+        <cylinder radius="0.10" length="0.30"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0.175"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+  </link>
+
+  <!-- BODY2 -->
+  <link name="BODY2">
+    <!-- Body2 Part1 -->
+    <visual>
+      <origin xyz="0.0 0.175 0.12"/>
+      <geometry>
+        <box size="0.12 0.05 0.36"/>
+      </geometry>
+      <material name="BodyAppearance2">
+        <color rgba="0.15 0.15 0.15 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.175 0.12"/>
+      <geometry>
+        <box size="0.12 0.05 0.36"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0.175 0.12"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <!-- Body2 Part2 -->
+    <visual>
+      <origin xyz="0 -0.175 0.12"/>
+      <geometry>
+        <box size="0.12 0.05 0.36"/>
+      </geometry>
+      <material name="BodyAppearance2"/>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.175 0.12"/>
+      <geometry>
+        <box size="0.12 0.05 0.36"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0.175 0.12"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <!-- Body2 Part3 -->
+    <visual>
+      <origin xyz="0 0 0.12"/>
+      <geometry>
+        <box size="0.12 0.30 0.03"/>
+      </geometry>
+      <material name="BodyAppearance2"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.12"/>
+      <geometry>
+        <box size="0.12 0.30 0.03"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0.175 0.12"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+  </link>
+  <!-- all the joints must have effort values -->
+  <joint name="joint_BODY1_BODY2" type="revolute">
+    <parent link="BODY1"/>
+    <child link="BODY2"/>
+    <origin xyz="0 0 0.175"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-0.349" upper="0.785" velocity="1.571" effort="20.0"/>
+  </joint>
+
+  <!-- BODY3 -->
+  <link name="BODY3">
+    <!-- Body3 Part1 -->
+    <!-- origin [0 0 0.075] = [0 0 0] + [0 0 0.075] -->
+    <!-- cyliner's default orientations are different between body and urdf -->
+    <visual>
+      <origin xyz="0 0 0" rpy="1.571 0 0"/>
+      <geometry>
+        <cylinder radius="0.10" length="0.30"/>
+      </geometry>
+      <material name="BodyAppearance1"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.571 0 0"/>
+      <geometry>
+        <cylinder radius="0.10" length="0.30"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0.15"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <!-- Body3 Part2 -->
+    <visual>
+      <origin xyz="0 0 0.05"/>
+      <geometry>
+        <box size="0.20 0.30 0.10"/>
+      </geometry>
+      <material name="BodyAppearance1"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.05"/>
+      <geometry>
+        <box size="0.20 0.30 0.10"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0.15"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <!-- Body3 Part3 -->
+    <visual>
+      <origin xyz="0 0 0.2"/>
+      <geometry>
+        <box size="0.20 0.40 0.20"/>
+      </geometry>
+      <material name="BodyAppearance1"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.2"/>
+      <geometry>
+        <box size="0.20 0.40 0.20"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0.15"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <!-- Body3 Part4 -->
+    <visual>
+      <origin xyz="0.125 0 0.15"/>
+      <geometry>
+        <box size="0.05 0.30 0.30"/>
+      </geometry>
+      <material name="BodyAppearance1"/>
+    </visual>
+    <collision>
+      <origin xyz="0.125 0 0.15"/>
+      <geometry>
+        <box size="0.05 0.30 0.30"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0.15"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+  </link>
+  <joint name="joint_BODY2_BODY3" type="revolute">
+    <parent link="BODY2"/>
+    <child link="BODY3"/>
+    <origin xyz="0 0 0.24"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-0.349" upper="0.785" velocity="1.571" effort="20.0"/>
+  </joint>
+
+  <!-- HEAD -->
+  <link name="HEAD">
+    <!-- Head Part1 -->
+    <!-- comment out sphere -->
+    <!-- <visual> -->
+    <!--   <origin xyz="0 0 0.0"/> -->
+    <!--   <geometry> -->
+    <!--     <sphere radius="0.15"/> -->
+    <!--   </geometry> -->
+    <!--   <material name="BodyAppearance1"/> -->
+    <!-- </visual> -->
+    <!-- <collision> -->
+    <!--   <origin xyz="0 0 0.0"/> -->
+    <!--   <geometry> -->
+    <!--     <sphere radius="0.15"/> -->
+    <!--   </geometry> -->
+    <!-- </collision> -->
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <!-- Head Part2 -->
+    <!-- cyliner's default orientations are different between body and urdf -->
+    <visual>
+      <origin xyz="0 0 0.04" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.15" length="0.08"/>
+      </geometry>
+      <material name="BodyAppearance1"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.04" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.15" length="0.08"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <!-- Head Part3 -->
+    <!-- comment out sphere -->
+    <!-- <visual> -->
+    <!--   <origin xyz="0 0 0.08"/> -->
+    <!--   <geometry> -->
+    <!--     <sphere radius="0.15"/> -->
+    <!--   </geometry> -->
+    <!--   <material name="BodyAppearance1"/> -->
+    <!-- </visual> -->
+    <!-- <collision> -->
+    <!--   <origin xyz="0 0 0.06"/> -->
+    <!--   <geometry> -->
+    <!--     <sphere radius="0.15"/> -->
+    <!--   </geometry> -->
+    <!-- </collision> -->
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+  </link>
+  <joint name="joint_BODY3_HEAD" type="revolute">
+    <parent link="BODY3"/>
+    <child link="HEAD"/>
+    <origin xyz="0 0 0.42"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.396" upper="1.221" velocity="1.571" effort="20.0"/>
+  </joint>
+
+  <!-- L_ARM -->
+  <link name="L_ARM">
+    <!-- L_Arm Part1 -->
+    <!-- <visual> -->
+    <!--   <origin xyz="0 0 0"/> -->
+    <!--   <geometry> -->
+    <!--     <sphere radius="0.10"/> -->
+    <!--   </geometry> -->
+    <!--   <material name="BodyAppearance1"/> -->
+    <!-- </visual> -->
+    <!-- <collision> -->
+    <!--   <origin xyz="0 0 0"/> -->
+    <!--   <geometry> -->
+    <!--     <sphere radius="0.10"/> -->
+    <!--   </geometry> -->
+    <!-- </collision> -->
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <!-- L_Arm Part2 -->
+    <visual>
+      <origin xyz="0 0.03 -0.225"/>
+      <geometry>
+        <box size="0.12 0.08 0.45"/>
+      </geometry>
+      <material name="BodyAppearance1"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0.03 -0.225"/>
+      <geometry>
+        <box size="0.12 0.08 0.45"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+  </link>
+  <joint name="joint_BODY3_L_ARM" type="revolute">
+    <parent link="BODY3"/>
+    <child link="L_ARM"/>
+    <origin xyz="0 0.23 0.20"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-3.142" upper="1.047" velocity="1.571" effort="20.0"/>
+  </joint>
+
+  <!-- R_ARM -->
+  <link name="R_ARM">
+    <!-- <visual> -->
+    <!--   <origin xyz="0 0 0"/> -->
+    <!--   <geometry> -->
+    <!--     <sphere radius="0.10"/> -->
+    <!--   </geometry> -->
+    <!--   <material name="BodyAppearance1"/> -->
+    <!-- </visual> -->
+    <!-- <collision> -->
+    <!--   <origin xyz="0 0 0"/> -->
+    <!--   <geometry> -->
+    <!--     <sphere radius="0.10"/> -->
+    <!--   </geometry> -->
+    <!-- </collision> -->
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>    <visual>
+      <origin xyz="0 -0.03 -0.225"/>
+      <geometry>
+        <box size="0.12 0.08 0.45"/>
+      </geometry>
+      <material name="BodyAppearance1"/>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.03 -0.225"/>
+      <geometry>
+        <box size="0.12 0.08 0.45"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+  </link>
+  <joint name="joint_BODY3_R_ARM" type="revolute">
+    <parent link="BODY3"/>
+    <child link="R_ARM"/>
+    <origin xyz="0 -0.23 0.20"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-3.142" upper="1.047" velocity="1.571" effort="20.0"/>
+  </joint>
 
 </robot>
