@@ -2,6 +2,10 @@
     local-name: choreonoid
     uri: https://github.com/choreonoid/choreonoid.git
     version: release-2.2
+# add manyally in lecture documets
+# - git:
+#     local-name: choreonoid_ros
+#     uri: https://github.com/choreonoid/choreonoid_ros.git
 - git:
     local-name: lecture2025
     uri: https://github.com/agent-system/lecture2025.git
