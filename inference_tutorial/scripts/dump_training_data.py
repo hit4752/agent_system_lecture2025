@@ -19,15 +19,24 @@ def main():
     parser.add_argument("-e", "--exp_name", type=str, default="go2-walking")
     parser.add_argument("-l", "--log_dir", type=str, required=True, help='Path to logs/xxx directory (contains cfgs.pkl)')
     parser.add_argument("--ckpt", type=int, default=100)
+    parser.add_argument("-d", "--device", type=str, required=True, help='Calculation decice (cpu or cuda)')
     args = parser.parse_args()
 
     log_dir = args.log_dir
     cfgs_path = os.path.join(args.log_dir, "cfgs.pkl")
+    if args.device == "cpu":
+        tensor_device = gs.cpu
+    elif args.device == "gpu":
+        tensor_device = gs.gpu
+    else:
+        print(f"Not supported device: {args.device}")
+        return
 
     print(f"Loading: {log_dir}")
     print(f"Loading: {cfgs_path}")
+    print(f"Device:  {tensor_device}")
 
-    gs.init()
+    gs.init(backend=tensor_device)
 
     with open(cfgs_path, "rb") as f:
         env_cfg, obs_cfg, reward_cfg, command_cfg, train_cfg = pickle.load(f)
@@ -40,25 +49,21 @@ def main():
         reward_cfg=reward_cfg,
         command_cfg=command_cfg,
         show_viewer=True,
+        device=args.device,
     )
 
-    runner = OnPolicyRunner(env, train_cfg, log_dir, device="cuda:0")
+    runner = OnPolicyRunner(env, train_cfg, log_dir, device=args.device)
     resume_path = os.path.join(log_dir, f"model_{args.ckpt}.pt")
     runner.load(resume_path)
-    # policy = runner.get_inference_policy(device="cuda:0")
 
     obs, _ = env.reset()
 
     model = runner.alg.actor_critic.actor
     model.eval()
 
-    # export for CUDA
-    example_obs = torch.randn(1, obs.shape[1], device="cuda:0")  # 例としてダミー入力作成
+    # generate and set a dummy input
+    example_obs = torch.randn(1, obs.shape[1], device=args.device)
     traced_model = torch.jit.trace(model, example_obs)
-
-    # export for cpu
-    # example_obs = torch.randn(1, obs.shape[1], device="cpu")  # 例としてダミー入力作成
-    # traced_model = torch.jit.trace(model.to("cpu"), example_obs)
 
     policy_path = os.path.join(log_dir, f"policy_traced.pt")
     traced_model.save(policy_path)
