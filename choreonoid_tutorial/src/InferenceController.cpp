@@ -44,9 +44,9 @@ class InferenceController1 : public SimpleController
 
     // Command resampling
     Vector3d command;
-    Listing* lin_vel_x_range;
-    Listing* lin_vel_y_range;
-    Listing* ang_vel_range;
+    Vector2d lin_vel_x_range;
+    Vector2d lin_vel_y_range;
+    Vector2d ang_vel_range;
     size_t resample_interval_steps;
     size_t step_count = 0;
 
@@ -138,17 +138,20 @@ public:
         command_scale[2] = ang_vel_scale;
 
         // command_cfg
-        lin_vel_x_range = command_cfg->findListing("lin_vel_x_range");
-        lin_vel_y_range = command_cfg->findListing("lin_vel_y_range");
-        ang_vel_range = command_cfg->findListing("ang_vel_range");
+        auto range_listing = command_cfg->findListing("lin_vel_x_range");
+        lin_vel_x_range = Vector2(range_listing->at(0)->toDouble(), range_listing->at(1)->toDouble());
+        range_listing = command_cfg->findListing("lin_vel_y_range");
+        lin_vel_y_range = Vector2(range_listing->at(0)->toDouble(), range_listing->at(1)->toDouble());
+        range_listing = command_cfg->findListing("ang_vel_range");
+        ang_vel_range = Vector2(range_listing->at(0)->toDouble(), range_listing->at(1)->toDouble());
 
         // モータDOFのindex取得
 
         // 乱数初期化
         rng.seed(std::random_device{}());
-        dist_lin_x = std::uniform_real_distribution<double>(lin_vel_x_range->at(0)->toDouble(), lin_vel_x_range->at(1)->toDouble());
-        dist_lin_y = std::uniform_real_distribution<double>(lin_vel_y_range->at(0)->toDouble(), lin_vel_y_range->at(1)->toDouble());
-        dist_ang = std::uniform_real_distribution<double>(ang_vel_range->at(0)->toDouble(), ang_vel_range->at(1)->toDouble());
+        dist_lin_x = std::uniform_real_distribution<double>(lin_vel_x_range[0], lin_vel_x_range[1]);
+        dist_lin_y = std::uniform_real_distribution<double>(lin_vel_y_range[0], lin_vel_y_range[1]);
+        dist_ang = std::uniform_real_distribution<double>(ang_vel_range[0], ang_vel_range[1]);
 
         // load the network model
         fs::path model_path = inference_target_path / fs::path("policy_traced.pt");
