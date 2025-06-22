@@ -10,6 +10,8 @@ catkin_package(
 #  DEPENDS system_lib
 )
 
+# Torch
+set(Torch_DIR "$ENV{HOME}/genesis_ws/libtorch/share/cmake/Torch")
 find_package(Torch REQUIRED)
 
 # use C++17
