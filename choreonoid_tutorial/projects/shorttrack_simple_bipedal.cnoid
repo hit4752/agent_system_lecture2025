@@ -10,7 +10,6 @@ items:
       name: "World"
       plugin: Body
       class: WorldItem
-      is_selected: true
       data:
         collision_detection: false
         collision_detector: AISTCollisionDetector
@@ -62,7 +61,7 @@ items:
                 reloading: false
                 export_symbols: false
         -
-          id: 5
+          id: 4
           name: "AISTSimulator"
           plugin: Body
           class: AISTSimulatorItem
@@ -79,7 +78,6 @@ items:
             record_collision_data: false
             controller_options: ""
             block_scene_view_edit_mode: false
-            time_sync_items: [ 4, 10 ]
             dynamicsMode: "Forward dynamics"
             integrationMode: semi-implicit_euler
             gravity: [ 0, 0, -9.80665 ]
@@ -96,7 +94,7 @@ items:
             oldAccelSensorMode: false
           children:
             -
-              id: 6
+              id: 5
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -114,17 +112,18 @@ items:
                 enable_additional_lights: true
                 antialiasing: false
             -
-              id: 7
+              id: 6
               name: "WorldLogFile"
               plugin: Body
               class: WorldLogFileItem
+              is_selected: true
               data:
-                file: "shorttrack_simple_bipedal"
+                file: "../logs/shorttrack_simple_bipedal"
                 format: CNOID-WORLD-LOG
                 timeStampSuffix: true
                 recordingFrameRate: 0
         -
-          id: 8
+          id: 7
           name: "Floor"
           plugin: Body
           class: BodyItem
@@ -155,7 +154,7 @@ items:
             zmp: [ 0, 0, 0 ]
           children:
             -
-              id: 9
+              id: 8
               name: "SimpleController"
               plugin: Body
               class: SimpleControllerItem
@@ -178,7 +177,7 @@ views:
     class: ItemTreeView
     mounted: true
     state:
-      expanded: [ 1, 2, 3, 5, 8, 9 ]
+      expanded: [ 1, 2, 3, 4, 7, 8 ]
   -
     id: 2
     plugin: Base
@@ -293,7 +292,7 @@ views:
     mounted: true
 toolbars:
   "TimeBar":
-    current_time: 10.866
+    current_time: 0
     min_time: 0
     max_time: 30
     frame_rate: 1000
@@ -335,7 +334,7 @@ Body:
         show_cm_projection: false
         show_zmp: false
       -
-        body_item: 8
+        body_item: 7
         show_cm: false
         show_cm_projection: false
         show_zmp: false
@@ -356,7 +355,7 @@ viewAreas:
         -
           type: splitter
           orientation: horizontal
-          sizes: [ 287, 1341 ]
+          sizes: [ 401, 1227 ]
           children:
             -
               type: splitter
