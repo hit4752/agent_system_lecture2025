@@ -10,13 +10,13 @@ import torch
 import genesis as gs
 
 # add Genesis locomotion example to path
-sys.path.append(os.environ["HOME"] + "/genesis_ws/Genesis/examples/locomotion")
-from go2_env import Go2Env
+sys.path.append(os.environ["HOME"] + "/genesis_ws/sandbox/genesis_simple_bipedal_rl")
+from simple_bipedal_env import SimpleBipedalEnv
 from rsl_rl.runners import OnPolicyRunner
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-e", "--exp_name", type=str, default="go2-walking")
+    parser.add_argument("-e", "--exp_name", type=str, default="simple_bipedal_walking")
     parser.add_argument("-l", "--log_dir", type=str, required=True, help='Path to logs/xxx directory (contains cfgs.pkl)')
     parser.add_argument("--ckpt", type=int, default=100)
     args = parser.parse_args()
@@ -33,7 +33,7 @@ def main():
         env_cfg, obs_cfg, reward_cfg, command_cfg, train_cfg = pickle.load(f)
     reward_cfg["reward_scales"] = {}
 
-    env = Go2Env(
+    env = SimpleBipedalEnv(
         num_envs=1,
         env_cfg=env_cfg,
         obs_cfg=obs_cfg,
