@@ -17,42 +17,47 @@ items:
       children:
         -
           id: 2
-          name: "go2_description"
+          name: "simple_bipedal"
           plugin: Body
           class: BodyItem
+          is_selected: true
           is_checked: true
           data:
-            file: "${HOME}/genesis_ws/Genesis/genesis/assets/urdf/go2/urdf/go2.urdf"
+            file: "../../../simple_bipedal/urdf/simple_bipedal.urdf"
             format: URDF
-            rootPosition: [ 0, 0, 0.42 ]
+            rootPosition: [ 0, 0, 1.33 ]
             rootAttitude: [
-              1, 0, 0,
-              0, 1, 0,
-              0, 0, 1 ]
+              1, -0, 0,
+              0, 6.123234e-17, -1,
+              0, 1, 6.123234e-17 ]
             jointDisplacements: [
-              0, 45, -85, 0, 45, -85, 0, 45, -85, 0,
-              45, -85 ]
-            initialRootPosition: [ 0, 0, 0.42 ]
+              17.2, 0, 0, -28.4, 11.5, 0, 17.2003, -0.00039, 0, -28.4,
+              11.5, 0 ]
+            initialRootPosition: [ 0, 0, 1.33 ]
             initialRootAttitude: [
               1, 0, 0,
-              0, 1, 0,
-              0, 0, 1 ]
+              0, 2.22044605e-16, -1,
+              0, 1, 2.22044605e-16 ]
             fix_root: false
             collisionDetection: true
             selfCollisionDetection: false
             lock_location: false
             scene_sensitive: true
+            link_kinematics:
+              "ankle_roll_left_link":
+                base_frame: 0
+                offset_frame: 0
             zmp: [ 0, 0, 0 ]
           children:
             -
               id: 3
-              name: "InferenceController"
+              name: "InferenceControllerSB"
               plugin: Body
               class: SimpleControllerItem
               data:
                 isNoDelayMode: false
                 controllerOptions: ""
-                controller: "InferenceController"
+                controller: "InferenceControllerSB"
                 base_directory: "Controller directory"
                 reloading: false
                 export_symbols: false
@@ -157,9 +162,9 @@ views:
         -
           camera: [ System, Perspective ]
           isCurrent: true
-          eye: [ 0.7, 3, 0.7 ]
-          direction: [ 0, -0.995037, -0.0995037 ]
-          up: [ 0, -0.0995037, 0.995037 ]
+          eye: [ -0.183311, 3.62718, 1.26869 ]
+          direction: [ 0.258461, -0.933889, -0.247083 ]
+          up: [ 0.0659048, -0.238131, 0.968994 ]
         -
           camera: [ System, Orthographic ]
           orthoHeight: 20
@@ -221,7 +226,7 @@ views:
     class: LinkPositionView
     mounted: true
     state:
-      coordinate_mode: world
+      coordinate_mode: base
       preferred_coordinate_mode: base
       show_rpy: true
       unique_rpy: false
@@ -264,7 +269,7 @@ toolbars:
 Body:
   "BodySelectionManager":
     current_body_item: 2
-    current_link: "base"
+    current_link: "base_link"
   "KinematicFaultChecker":
     checkJointPositions: true
     angleMargin: 0
@@ -298,17 +303,17 @@ viewAreas:
     contents:
       type: splitter
       orientation: horizontal
-      sizes: [ 1445, 459 ]
+      sizes: [ 1454, 462 ]
       children:
         -
           type: splitter
           orientation: horizontal
-          sizes: [ 374, 1067 ]
+          sizes: [ 678, 772 ]
           children:
             -
               type: splitter
               orientation: vertical
-              sizes: [ 452, 451 ]
+              sizes: [ 463, 462 ]
               children:
                 -
                   type: pane
@@ -320,7 +325,7 @@ viewAreas:
             -
               type: splitter
               orientation: vertical
-              sizes: [ 678, 225 ]
+              sizes: [ 695, 230 ]
               children:
                 -
                   type: pane
@@ -332,7 +337,7 @@ viewAreas:
         -
           type: splitter
           orientation: vertical
-          sizes: [ 191, 712 ]
+          sizes: [ 263, 662 ]
           children:
             -
               type: pane
@@ -340,7 +345,7 @@ viewAreas:
             -
               type: splitter
               orientation: vertical
-              sizes: [ 273, 435 ]
+              sizes: [ 376, 282 ]
               children:
                 -
                   type: pane
