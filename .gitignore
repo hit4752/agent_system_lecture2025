@@ -1,1 +1,4 @@
 *~
+choreonoid_tutorial/logs/*
+!choreonoid_tutorial/logs/.gitkeep
+choreonoid_tutorial/pictures/*.png
