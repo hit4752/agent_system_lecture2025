@@ -34,6 +34,7 @@ class InferenceControllerSB : public SimpleController
     // Config values
     double P_gain;
     double D_gain;
+    VectorXd pdgain_rate;
     int num_actions;
     double action_scale;
     double ang_vel_scale;
@@ -109,6 +110,12 @@ public:
         num_actions = env_cfg->get("num_actions", 1);
         last_action = VectorXd::Zero(num_actions);
         default_dof_pos = VectorXd::Zero(num_actions);
+
+        auto rate = env_cfg->findListing("pdgain_rate");
+        pdgain_rate = VectorXd::Zero(num_actions);
+        for (int i = 0; i < num_actions; i++) {
+          pdgain_rate[i] = rate->at(i)->toDouble();
+        }
 
         auto dof_names = env_cfg->findListing("dof_names");
         motor_dof_names.clear();
@@ -245,7 +252,7 @@ public:
             double q = joint->q();
             double dq = joint->dq();
             // double u = P_gain * (target_dof_pos[i] - q) + D_gain * (target_dof_vel[i] - dq);
-            double u = P_gain * (target_dof_pos[i] - q) + D_gain * (- dq);
+            double u = (P_gain * (target_dof_pos[i] - q) + D_gain * (- dq)) * pdgain_rate[i];
             joint->u() = u;
         }
 
