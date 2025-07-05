@@ -3,7 +3,7 @@ from datetime import datetime
 import os, sys, subprocess, glob
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-n", "--name", type=str, default="video_st_sb")
+parser.add_argument("-n", "--name", type=str, default="scene")
 args = parser.parse_args()
 
 script_path = os.path.abspath(__file__)
