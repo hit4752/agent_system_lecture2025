@@ -41,6 +41,7 @@ class InferenceControllerSB : public SimpleController
     double lin_vel_scale;
     double dof_pos_scale;
     double dof_vel_scale;
+    Vector3 pos_scale;
     Vector3 command_scale;
 
     // Command resampling
@@ -142,6 +143,10 @@ public:
         lin_vel_scale = obs_cfg->findMapping("obs_scales")->get("lin_vel", 1.0);
         dof_pos_scale = obs_cfg->findMapping("obs_scales")->get("dof_pos", 1.0);
         dof_vel_scale = obs_cfg->findMapping("obs_scales")->get("dof_vel", 1.0);
+        auto pos_scale_ = obs_cfg->findMapping("obs_scales")->findListing("pos");
+        for (int i = 0; i < 3; ++i) {
+            pos_scale[i] = pos_scale_->at(i)->toDouble();
+        }
 
         command_scale[0] = lin_vel_scale;
         command_scale[1] = lin_vel_scale;
@@ -179,7 +184,7 @@ public:
         return true;
     }
 
-    bool inference(VectorXd& target_dof_pos, const Vector3d& angular_velocity, const Vector3d& projected_gravity, const VectorXd& joint_pos, const VectorXd& joint_vel) {
+    bool inference(VectorXd& target_dof_pos, const Vector3d& angular_velocity, const Vector3d& projected_gravity, const VectorXd& joint_pos, const VectorXd& joint_vel, const Vector3d& position) {
         try {
             // observation vector
             std::vector<float> obs_vec;
@@ -189,6 +194,7 @@ public:
             for(int i=0; i<num_actions; ++i) obs_vec.push_back((joint_pos[i] - default_dof_pos[i]) * dof_pos_scale);
             for(int i=0; i<num_actions; ++i) obs_vec.push_back(joint_vel[i] * dof_vel_scale);
             for(int i=0; i<num_actions; ++i) obs_vec.push_back(last_action[i]);
+            for(int i=0; i<3; ++i) obs_vec.push_back(position[i] * pos_scale[i]);
 
             // auto input = torch::from_blob(obs_vec.data(), {1, (long)obs_vec.size()}, torch::kFloat32).to(torch::kCUDA);
             auto input = torch::from_blob(obs_vec.data(), {1, (long)obs_vec.size()}, torch::kFloat32).to(torch::kCPU);
@@ -231,6 +237,7 @@ public:
         const Isometry3d root_coord = rootLink->T();
         Vector3 angular_velocity = root_coord.linear().transpose() * rootLink->w();
         Vector3 projected_gravity = root_coord.linear().transpose() * global_gravity;
+        Vector3 position = root_coord.translation();
 
         VectorXd joint_pos(num_actions), joint_vel(num_actions);
         for(int i=0; i<num_actions; ++i){
@@ -241,7 +248,7 @@ public:
 
         // inference
         if (step_count % inference_interval_steps == 0) {
-            inference(target_dof_pos, angular_velocity, projected_gravity, joint_pos, joint_vel);
+            inference(target_dof_pos, angular_velocity, projected_gravity, joint_pos, joint_vel, position);
             // target_dof_vel = (target_dof_pos - target_dof_pos_prev) / inference_dt;
             // target_dof_pos_prev = target_dof_pos;
         }
