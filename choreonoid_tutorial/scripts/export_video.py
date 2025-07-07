@@ -16,6 +16,7 @@ vname = datetime.now().strftime("video_%Y-%m-%d-%H-%M-%S_") + args.name + ".mp4"
 command = [
   "ffmpeg", 
   "-r", "30", "-i", os.path.join(picture_dir, args.name) + "%08d.png", 
+  "-c:v", "libx264", "-c:a", "libmp3lame",
   "-r", "30", os.path.join(video_dir, vname),
 ]
 
@@ -26,11 +27,11 @@ except Exception as e:
   print("Error occurred while running ffmpeg.")
   sys.exit(1)
 
-try:
-  del_pictures = glob.glob(os.path.join(picture_dir, args.name) + "*.png")
-  for picture in del_pictures:
-    os.remove(picture)
-  print("Pictures cleaned up successfully.")
-except Exception as e:
-  print("Error occurred while cleaning up pictures.")
-  sys.exit(1)
+# try:
+#   del_pictures = glob.glob(os.path.join(picture_dir, args.name) + "*.png")
+#   for picture in del_pictures:
+#     os.remove(picture)
+#   print("Pictures cleaned up successfully.")
+# except Exception as e:
+#   print("Error occurred while cleaning up pictures.")
+#   sys.exit(1)
