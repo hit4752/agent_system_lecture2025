@@ -16,7 +16,8 @@ vname = datetime.now().strftime("video_%Y-%m-%d-%H-%M-%S_") + args.name + ".mp4"
 command = [
   "ffmpeg", 
   "-r", "30", "-i", os.path.join(picture_dir, args.name) + "%08d.png", 
-  "-c:v", "libx264", "-c:a", "libmp3lame",
+  "-vf", "scale=iw:ih-1",
+  "-c:v", "libx264", "-c:a", "aac", "-pix_fmt", "yuv420p",
   "-r", "30", os.path.join(video_dir, vname),
 ]
 
