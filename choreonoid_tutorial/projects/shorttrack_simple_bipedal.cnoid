@@ -10,7 +10,6 @@ items:
       name: "World"
       plugin: Body
       class: WorldItem
-      is_selected: true
       data:
         collision_detection: false
         collision_detector: AISTCollisionDetector
@@ -40,7 +39,7 @@ items:
               0, 1, 2.22044605e-16 ]
             fix_root: false
             collisionDetection: true
-            selfCollisionDetection: false
+            selfCollisionDetection: true
             lock_location: false
             scene_sensitive: true
             link_kinematics:
@@ -62,7 +61,7 @@ items:
                 reloading: false
                 export_symbols: false
         -
-          id: 5
+          id: 4
           name: "AISTSimulator"
           plugin: Body
           class: AISTSimulatorItem
@@ -79,7 +78,6 @@ items:
             record_collision_data: false
             controller_options: ""
             block_scene_view_edit_mode: false
-            time_sync_items: [ 4, 10 ]
             dynamicsMode: "Forward dynamics"
             integrationMode: semi-implicit_euler
             gravity: [ 0, 0, -9.80665 ]
@@ -96,7 +94,7 @@ items:
             oldAccelSensorMode: false
           children:
             -
-              id: 6
+              id: 5
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -114,17 +112,18 @@ items:
                 enable_additional_lights: true
                 antialiasing: false
             -
-              id: 7
+              id: 6
               name: "WorldLogFile"
               plugin: Body
               class: WorldLogFileItem
+              is_selected: true
               data:
                 file: "../logs/shorttrack_simple_bipedal"
                 format: CNOID-WORLD-LOG
                 timeStampSuffix: true
                 recordingFrameRate: 0
         -
-          id: 8
+          id: 7
           name: "Floor"
           plugin: Body
           class: BodyItem
@@ -155,7 +154,7 @@ items:
             zmp: [ 0, 0, 0 ]
           children:
             -
-              id: 9
+              id: 8
               name: "SimpleController"
               plugin: Body
               class: SimpleControllerItem
@@ -178,7 +177,7 @@ views:
     class: ItemTreeView
     mounted: true
     state:
-      expanded: [ 1, 2, 3, 5, 8, 9 ]
+      expanded: [ 1, 2, 3, 4, 7, 8 ]
   -
     id: 2
     plugin: Base
@@ -210,9 +209,9 @@ views:
         -
           camera: [ System, Perspective ]
           isCurrent: true
-          eye: [ 11.9046, -6.74403, 3.68571 ]
-          direction: [ -0.563121, 0.743204, -0.361307 ]
-          up: [ -0.2182, 0.287979, 0.932447 ]
+          eye: [ 21.7631, -9.57273, 5.69996 ]
+          direction: [ -0.558129, 0.706793, -0.434668 ]
+          up: [ -0.269379, 0.341131, 0.900591 ]
         -
           camera: [ System, Orthographic ]
           orthoHeight: 20
@@ -335,7 +334,7 @@ Body:
         show_cm_projection: false
         show_zmp: false
       -
-        body_item: 8
+        body_item: 7
         show_cm: false
         show_cm_projection: false
         show_zmp: false
@@ -351,17 +350,17 @@ viewAreas:
     contents:
       type: splitter
       orientation: horizontal
-      sizes: [ 1632, 284 ]
+      sizes: [ 2484, 0 ]
       children:
         -
           type: splitter
           orientation: horizontal
-          sizes: [ 401, 1227 ]
+          sizes: [ 150, 2330 ]
           children:
             -
               type: splitter
               orientation: vertical
-              sizes: [ 463, 462 ]
+              sizes: [ 630, 628 ]
               children:
                 -
                   type: pane
@@ -373,7 +372,7 @@ viewAreas:
             -
               type: splitter
               orientation: vertical
-              sizes: [ 736, 189 ]
+              sizes: [ 1258, 0 ]
               children:
                 -
                   type: pane
@@ -385,7 +384,7 @@ viewAreas:
         -
           type: splitter
           orientation: vertical
-          sizes: [ 263, 662 ]
+          sizes: [ 358, 900 ]
           children:
             -
               type: pane
@@ -393,7 +392,7 @@ viewAreas:
             -
               type: splitter
               orientation: vertical
-              sizes: [ 376, 282 ]
+              sizes: [ 512, 384 ]
               children:
                 -
                   type: pane
