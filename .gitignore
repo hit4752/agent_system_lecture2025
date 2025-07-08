@@ -2,5 +2,5 @@
 choreonoid_tutorial/logs/*
 !choreonoid_tutorial/logs/.gitkeep
 choreonoid_tutorial/pictures/*.png
-!choreonoid_tutorial/logs/shorttrack_simple_bipedal-2025-07-08-20-39-49-log/
-!choreonoid_tutorial/logs/shorttrack_simple_bipedal-2025-07-08-20-39-49-log.cnoid
+!choreonoid_tutorial/logs/shorttrack_simple_bipedal-*-log/
+!choreonoid_tutorial/logs/shorttrack_simple_bipedal-*-log.cnoid
