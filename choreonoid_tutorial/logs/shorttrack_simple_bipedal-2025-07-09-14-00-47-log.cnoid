@@ -10,7 +10,6 @@ items:
       name: "World"
       plugin: Body
       class: WorldItem
-      is_selected: true
       data:
         collision_detection: false
         collision_detector: AISTCollisionDetector
@@ -23,14 +22,17 @@ items:
           class: BodyItem
           is_checked: true
           data:
-            file: "../../../simple_bipedal/urdf/simple_bipedal.urdf"
-            format: URDF
-            rootPosition: [ 0, 0, 1.33 ]
+            file: "shorttrack_simple_bipedal-2025-07-09-14-00-47-log/simple_bipedal/simple_bipedal.body"
+            format: CHOREONOID-BODY
+            rootPosition: [ 0, 0, 1.33000004 ]
             rootAttitude: [
-              1, -0, 0,
-              0, 2.83276945e-16, -1,
-              0, 1, 2.83276945e-16 ]
+              1, 0, 0,
+              0, 3.42285418e-08, -0.999999966,
+              0, 0.999999966, 3.42285418e-08 ]
             jointDisplacements: [
+              17.2, 0, 0, -28.4, 11.5, 0, 17.2003, -0.00039, 0, -28.4,
+              11.5, 0 ]
+            initialJointDisplacements: [
               17.2, 0, 0, -28.4, 11.5, 0, 17.2003, -0.00039, 0, -28.4,
               11.5, 0 ]
             initialRootPosition: [ 0, 0, 1.33 ]
@@ -48,88 +50,31 @@ items:
                 base_frame: 0
                 offset_frame: 0
             zmp: [ 0, 0, 0 ]
-          children:
-            -
-              id: 3
-              name: "InferenceControllerSB"
-              plugin: Body
-              class: SimpleControllerItem
-              data:
-                isNoDelayMode: false
-                controllerOptions: ""
-                controller: "InferenceControllerSB"
-                base_directory: "Controller directory"
-                reloading: false
-                export_symbols: false
         -
-          id: 4
+          id: 3
           name: "AISTSimulator"
-          plugin: Body
-          class: AISTSimulatorItem
-          data:
-            time_step: 0.001
-            realtime_sync_mode: compensatory
-            recording: full
-            time_range_mode: unlimited
-            time_length: 180
-            is_active_control_time_range_mode: false
-            output_all_link_positions: false
-            output_device_states: true
-            use_controller_threads: true
-            record_collision_data: false
-            controller_options: ""
-            block_scene_view_edit_mode: false
-            dynamicsMode: "Forward dynamics"
-            integrationMode: semi-implicit_euler
-            gravity: [ 0, 0, -9.80665 ]
-            min_friction_coefficient: 0
-            max_friction_coefficient: 100
-            cullingThresh: 0.005
-            contactCullingDepth: 0.05
-            errorCriterion: 0.001
-            maxNumIterations: 25
-            contactCorrectionDepth: 0.00025
-            contactCorrectionVelocityRatio: 5
-            kinematicWalking: false
-            2Dmode: false
-            oldAccelSensorMode: false
+          plugin: Base
+          class: FolderItem
           children:
             -
-              id: 5
-              name: "GLVisionSimulator"
-              plugin: Body
-              class: GLVisionSimulatorItem
-              data:
-                enabled: true
-                max_frame_rate: 1000
-                max_latency: 1
-                record_vision_data: false
-                thread_mode: Sensor
-                best_effort: true
-                all_scene_objects: true
-                range_sensor_precision_ratio: 2
-                depth_error: 0
-                enable_head_light: true
-                enable_additional_lights: true
-                antialiasing: false
-            -
-              id: 6
+              id: 4
               name: "WorldLogFile"
               plugin: Body
               class: WorldLogFileItem
+              is_selected: true
               data:
-                file: "../logs/shorttrack_simple_bipedal"
+                file: "shorttrack_simple_bipedal-2025-07-09-14-00-47-log/shorttrack_simple_bipedal-2025-07-09-14-00-47"
                 format: CNOID-WORLD-LOG
-                timeStampSuffix: true
+                timeStampSuffix: false
                 recordingFrameRate: 0
         -
-          id: 7
+          id: 5
           name: "Floor"
           plugin: Body
           class: BodyItem
           is_checked: true
           data:
-            file: "../../../choreonoid/ext/vnoid/model/field2022/field2022_shorttrack.body"
+            file: "shorttrack_simple_bipedal-2025-07-09-14-00-47-log/Floor/Floor.body"
             format: CHOREONOID-BODY
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [
@@ -152,19 +97,6 @@ items:
             lock_location: false
             scene_sensitive: true
             zmp: [ 0, 0, 0 ]
-          children:
-            -
-              id: 8
-              name: "SimpleController"
-              plugin: Body
-              class: SimpleControllerItem
-              data:
-                isNoDelayMode: false
-                controllerOptions: ""
-                controller: "vnoid_shorttrack_controller"
-                base_directory: "Controller directory"
-                reloading: false
-                export_symbols: false
 views:
   -
     id: 0
@@ -177,7 +109,7 @@ views:
     class: ItemTreeView
     mounted: true
     state:
-      expanded: [ 1, 2, 3, 4, 7, 8 ]
+      expanded: [ 1, 2, 3, 5 ]
   -
     id: 2
     plugin: Base
@@ -334,7 +266,7 @@ Body:
         show_cm_projection: false
         show_zmp: false
       -
-        body_item: 7
+        body_item: 5
         show_cm: false
         show_cm_projection: false
         show_zmp: false
