@@ -1,0 +1,325 @@
+format: ChoreonoidBody
+format_version: 2.0
+angle_unit: degree
+name: "simple_bipedal"
+root_link: "base_link"
+links:
+  -
+    name: "base_link"
+    translation: [ 22.6472, 0.0403771, 0.189657 ]
+    rotation: [ 0.639633, -0.679799, 0.358807, 138.286 ]
+    joint_name: "base_link"
+    joint_type: free
+    mass: 10.167
+    center_of_mass: [ 2.3957e-18, -0.016415, 6.1719e-17 ]
+    inertia: [
+      0.34448, 6.8915e-18, 5.6161e-18,
+      6.8915e-18, 0.16165, 1.8865e-18,
+      5.6161e-18, 1.8865e-18, 0.24799 ]
+    elements:
+      -
+        type: Shape
+        appearance:
+          material:
+            diffuse: [ 0.86667, 0.9098, 1 ]
+        geometry:
+          type: Resource
+          uri: "simple_bipedal/base_link.obj"
+  -
+    name: "hip_pitch_left_link"
+    parent: "base_link"
+    translation: [ 0, -0.355, -0.125 ]
+    joint_name: "hip_pitch_left_joint"
+    joint_type: revolute
+    joint_axis: [ 0, 0, 1 ]
+    joint_id: 0
+    max_joint_velocity: 572.958
+    max_joint_effort: 100
+    mass: 0.664888
+    center_of_mass: [ 2.33691e-08, 0, 2.33691e-08 ]
+    inertia: [
+      0.00194491, 1.24923e-09, 3.6308e-16,
+      1.24923e-09, 0.0020205, -1.24923e-09,
+      3.6308e-16, -1.24923e-09, 0.00194491 ]
+    elements:
+      -
+        type: Shape
+        appearance:
+          material:
+            diffuse: [ 0.866667, 0.909804, 1 ]
+        geometry:
+          type: Resource
+          uri: "simple_bipedal/hip_pitch_left_link.obj"
+  -
+    name: "hip_roll_left_link"
+    parent: "hip_pitch_left_link"
+    joint_name: "hip_roll_left_joint"
+    joint_type: revolute
+    joint_axis: [ 1, 0, 0 ]
+    joint_id: 1
+    max_joint_velocity: 572.958
+    max_joint_effort: 100
+    mass: 0.5308
+    center_of_mass: [ 5.47988e-18, -0.071449, 0 ]
+    inertia: [
+      0.00238182, 1.33587e-20, -1.93986e-19,
+      1.33587e-20, 0.00288417, -6.73805e-20,
+      -1.93986e-19, -6.73805e-20, 0.00375104 ]
+    elements:
+      -
+        type: Shape
+        appearance:
+          material:
+            diffuse: [ 0.866667, 0.909804, 1 ]
+        geometry:
+          type: Resource
+          uri: "simple_bipedal/hip_roll_left_link.obj"
+  -
+    name: "hip_yaw_left_link"
+    parent: "hip_roll_left_link"
+    translation: [ 0, -0.15, 0 ]
+    joint_name: "hip_yaw_left_joint"
+    joint_type: revolute
+    joint_axis: [ 0, -1, 0 ]
+    joint_id: 2
+    max_joint_velocity: 572.958
+    max_joint_effort: 100
+    mass: 1.36383
+    center_of_mass: [ -1.53308e-08, -0.161028, 0 ]
+    inertia: [
+      0.0129648, 4.73949e-10, -3.64916e-09,
+      4.73949e-10, 0.00361726, -1.26427e-19,
+      -3.64916e-09, -1.26427e-19, 0.0128091 ]
+    elements:
+      -
+        type: Shape
+        appearance:
+          material:
+            diffuse: [ 0.866667, 0.909804, 1 ]
+        geometry:
+          type: Resource
+          uri: "simple_bipedal/hip_yaw_left_link.obj"
+  -
+    name: "knee_pitch_left_link"
+    parent: "hip_yaw_left_link"
+    translation: [ 0, -0.25, 0 ]
+    joint_name: "knee_pitch_left_joint"
+    joint_type: revolute
+    joint_axis: [ 0, 0, 1 ]
+    joint_id: 3
+    max_joint_velocity: 572.958
+    max_joint_effort: 100
+    mass: 1.50271
+    center_of_mass: [ -4.53294e-08, -0.191334, -5.74366e-08 ]
+    inertia: [
+      0.020648, 5.19726e-09, -1.06542e-09,
+      5.19726e-09, 0.0055412, -5.77368e-09,
+      -1.06542e-09, -5.77368e-09, 0.019123 ]
+    elements:
+      -
+        type: Shape
+        appearance:
+          material:
+            diffuse: [ 0.866667, 0.909804, 1 ]
+        geometry:
+          type: Resource
+          uri: "simple_bipedal/knee_pitch_left_link.obj"
+  -
+    name: "ankle_pitch_left_link"
+    parent: "knee_pitch_left_link"
+    translation: [ 0, -0.3, 0 ]
+    joint_name: "ankle_pitch_left_joint"
+    joint_type: revolute
+    joint_axis: [ 0, 0, 1 ]
+    joint_id: 4
+    max_joint_velocity: 572.958
+    max_joint_effort: 100
+    mass: 1.15922
+    center_of_mass: [ 1.123e-17, -0.138293, -2.77556e-17 ]
+    inertia: [
+      0.0100513, -1.30274e-19, 3.97826e-20,
+      -1.30274e-19, 0.00497069, -6.37423e-19,
+      3.97826e-20, -6.37423e-19, 0.00880005 ]
+    elements:
+      -
+        type: Shape
+        appearance:
+          material:
+            diffuse: [ 0.866667, 0.909804, 1 ]
+        geometry:
+          type: Resource
+          uri: "simple_bipedal/ankle_pitch_left_link.obj"
+  -
+    name: "ankle_roll_left_link"
+    parent: "ankle_pitch_left_link"
+    translation: [ 0, -0.2, 0 ]
+    joint_name: "ankle_roll_left_joint"
+    joint_type: revolute
+    joint_axis: [ 1, 0, 0 ]
+    joint_id: 5
+    max_joint_velocity: 572.958
+    max_joint_effort: 100
+    mass: 0.427695
+    center_of_mass: [ -4.51821e-18, -0.0528696, 0 ]
+    inertia: [
+      0.00165757, -1.16264e-19, 5.92623e-20,
+      -1.16264e-19, 0.00382363, 1.61519e-19,
+      5.92623e-20, 1.61519e-19, 0.00415145 ]
+    elements:
+      -
+        type: Shape
+        appearance:
+          material:
+            diffuse: [ 0.866667, 0.909804, 1 ]
+        geometry:
+          type: Resource
+          uri: "simple_bipedal/ankle_roll_left_link.obj"
+  -
+    name: "hip_pitch_right_link"
+    parent: "base_link"
+    translation: [ 0, -0.355, 0.125 ]
+    joint_name: "hip_pitch_right_joint"
+    joint_type: revolute
+    joint_axis: [ 0, 0, 1 ]
+    joint_id: 6
+    max_joint_velocity: 572.958
+    max_joint_effort: 100
+    mass: 0.664888
+    center_of_mass: [ 2.33691e-08, 0, 2.33691e-08 ]
+    inertia: [
+      0.00194491, 1.24923e-09, 3.62959e-16,
+      1.24923e-09, 0.0020205, -1.24923e-09,
+      3.62959e-16, -1.24923e-09, 0.00194491 ]
+    elements:
+      -
+        type: Shape
+        appearance:
+          material:
+            diffuse: [ 0.866667, 0.909804, 1 ]
+        geometry:
+          type: Resource
+          uri: "simple_bipedal/hip_pitch_right_link.obj"
+  -
+    name: "hip_roll_right_link"
+    parent: "hip_pitch_right_link"
+    joint_name: "hip_roll_right_joint"
+    joint_type: revolute
+    joint_axis: [ 1, 0, 0 ]
+    joint_id: 7
+    max_joint_velocity: 572.958
+    max_joint_effort: 100
+    mass: 0.5308
+    center_of_mass: [ 2.04895e-18, -0.071449, 0 ]
+    inertia: [
+      0.00238182, -2.32658e-20, -1.93986e-19,
+      -2.32658e-20, 0.00288417, -8.41398e-20,
+      -1.93986e-19, -8.41398e-20, 0.00375104 ]
+    elements:
+      -
+        type: Shape
+        appearance:
+          material:
+            diffuse: [ 0.866667, 0.909804, 1 ]
+        geometry:
+          type: Resource
+          uri: "simple_bipedal/hip_roll_right_link.obj"
+  -
+    name: "hip_yaw_right_link"
+    parent: "hip_roll_right_link"
+    translation: [ 0, -0.15, 0 ]
+    joint_name: "hip_yaw_right_joint"
+    joint_type: revolute
+    joint_axis: [ 0, -1, 0 ]
+    joint_id: 8
+    max_joint_velocity: 572.958
+    max_joint_effort: 100
+    mass: 1.36383
+    center_of_mass: [ -1.53308e-08, -0.161028, 0 ]
+    inertia: [
+      0.0129648, 4.73949e-10, -3.64916e-09,
+      4.73949e-10, 0.00361726, 3.05964e-21,
+      -3.64916e-09, 3.05964e-21, 0.0128091 ]
+    elements:
+      -
+        type: Shape
+        appearance:
+          material:
+            diffuse: [ 0.866667, 0.909804, 1 ]
+        geometry:
+          type: Resource
+          uri: "simple_bipedal/hip_yaw_right_link.obj"
+  -
+    name: "knee_pitch_right_link"
+    parent: "hip_yaw_right_link"
+    translation: [ 0, -0.25, 0 ]
+    joint_name: "knee_pitch_right_joint"
+    joint_type: revolute
+    joint_axis: [ 0, 0, 1 ]
+    joint_id: 9
+    max_joint_velocity: 572.958
+    max_joint_effort: 100
+    mass: 1.50271
+    center_of_mass: [ -4.53294e-08, -0.191334, -5.74366e-08 ]
+    inertia: [
+      0.020648, 5.19726e-09, -1.06542e-09,
+      5.19726e-09, 0.0055412, -5.77368e-09,
+      -1.06542e-09, -5.77368e-09, 0.019123 ]
+    elements:
+      -
+        type: Shape
+        appearance:
+          material:
+            diffuse: [ 0.866667, 0.909804, 1 ]
+        geometry:
+          type: Resource
+          uri: "simple_bipedal/knee_pitch_right_link.obj"
+  -
+    name: "ankle_pitch_right_link"
+    parent: "knee_pitch_right_link"
+    translation: [ 0, -0.3, 0 ]
+    joint_name: "ankle_pitch_right_joint"
+    joint_type: revolute
+    joint_axis: [ 0, 0, 1 ]
+    joint_id: 10
+    max_joint_velocity: 572.958
+    max_joint_effort: 100
+    mass: 1.15922
+    center_of_mass: [ 1.123e-17, -0.138293, -2.77556e-17 ]
+    inertia: [
+      0.0100513, -1.30274e-19, 5.70917e-20,
+      -1.30274e-19, 0.00497069, -4.44917e-20,
+      5.70917e-20, -4.44917e-20, 0.00880005 ]
+    elements:
+      -
+        type: Shape
+        appearance:
+          material:
+            diffuse: [ 0.866667, 0.909804, 1 ]
+        geometry:
+          type: Resource
+          uri: "simple_bipedal/ankle_pitch_right_link.obj"
+  -
+    name: "ankle_roll_right_link"
+    parent: "ankle_pitch_right_link"
+    translation: [ 0, -0.2, 0 ]
+    joint_name: "ankle_roll_right_joint"
+    joint_type: revolute
+    joint_axis: [ 1, 0, 0 ]
+    joint_id: 11
+    max_joint_velocity: 572.958
+    max_joint_effort: 100
+    mass: 0.42769
+    center_of_mass: [ 7.6785e-18, -0.05287, -2.7756e-17 ]
+    inertia: [
+      0.0016576, 1.6559e-20, 2.1793e-19,
+      1.6559e-20, 0.0038236, 5.8843e-20,
+      2.1793e-19, 5.8843e-20, 0.0041515 ]
+    elements:
+      -
+        type: Shape
+        appearance:
+          material:
+            diffuse: [ 0.86667, 0.9098, 1 ]
+        geometry:
+          type: Resource
+          uri: "simple_bipedal/ankle_roll_right_link.obj"
