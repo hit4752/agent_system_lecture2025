@@ -13,6 +13,10 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <exec_depend>python3-yaml</exec_depend>
+  <exec_depend>python3-pytorch-pip</exec_depend>
+  <!-- C++ LibTorch is found by CMake (Torch_DIR); no rosdep key is available.
+       Genesis, rsl_rl and the training environments are external prerequisites
+       for the optional export scripts. See ../README.md. -->
 
   <export>
     <!-- Other tools can request additional information be placed here -->

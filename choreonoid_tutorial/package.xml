@@ -14,18 +14,17 @@
   <build_depend>message_generation</build_depend>
 
   <depend>choreonoid</depend>
-  <!-- <depend>choreonoid_ros</depend> -->
-  <!-- <depend>choreonoid_joy</depend> -->
   <depend>roscpp</depend>
-  <depend>rospy</depend>
   <depend>std_msgs</depend>
   <depend>sensor_msgs</depend>
   <depend>trajectory_msgs</depend>
-  <!-- <depend>image_transport</depend> -->
 
+  <build_export_depend>message_runtime</build_export_depend>
   <exec_depend>message_runtime</exec_depend>
+  <exec_depend>simple_bipedal</exec_depend>
+  <exec_depend>ffmpeg</exec_depend>
+  <!-- LibTorch is found by CMake (Torch_DIR); no rosdep key is available.
+       See ../README.md for installation and ABI requirements. -->
 
-  <export>
-    <build_type>cmake</build_type>
-  </export>
+  <export/>
 </package>
